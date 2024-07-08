@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>로그인</title>
+<title>로그인페이지</title>
 </head>
-<body>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <style>
     * {
         padding: 0px;
@@ -44,24 +47,24 @@
         height: 400px;
     }
 </style>
-
-	<section class="login-container">
+<body>
+    <section class="login-container">
         <div class="login-div">
             <div class="logo-div">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPnxefHYLnvWuIF1nChEInB3ekM6BbxYGzHA&s">
+                <img src="">
             </div>
             <h4>회사명</h4>
-            <form>
+            <form action="${path}/loginproc" method="post">
                 <div class="row mb-3">
-                  <label for="inputEmpNo" class="col-form-label">사원번호</label>
+                  <label for="inputEmpNo" class="col-form-label">아이디</label>
                   <div class="col">
-                    <input type="text" class="form-control" id="inputEmpNo">
+                    <input type="text" class="form-control" id="inputEmpNo" name="empId" placeholder="ID">
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="inputPassword" class="col-form-label">비밀번호</label>
                   <div class="col">
-                    <input type="password" class="form-control" id="inputPassword">
+                    <input type="password" class="form-control" id="inputPassword" name="empPw" placeholder="Password">
                   </div>
                 </div>
                 
@@ -73,6 +76,9 @@
                         로그인 저장
                       </label>
                     </div>
+                    <div>
+                    	<a href="/joinForm">사원 등록 신청</a>
+                    </div>
                   </div>
                 </div>
                 <div class="text-center d-grid gap-2 col-8 mx-auto">
@@ -81,7 +87,7 @@
             </form>
         </div>
         <div class="side-img-container">
-            <img src="./jpg/city.jpg" alt="City">
+            <img src="" alt="City">
         </div>
     </section>
 </body>

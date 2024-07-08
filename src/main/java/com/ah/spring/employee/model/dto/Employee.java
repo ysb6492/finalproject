@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ah.spring.common.MyAuthority;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,13 +22,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+/*
+ * @ToString(exclude = {"deptCode"})
+ */
 public class Employee implements UserDetails {
+
 	private String empNo;
+	@NotEmpty(message = "id는 필수입력 사항입니다")
 	private String empId;
+    @NotEmpty(message = "비밀번호는 필수입력 사항입니다")
 	private String empPw;
+	
+    @NotEmpty(message = "이름은 필수입력 사항입니다")
 	private String empName;
 	private String empResidentNo;
 	private String empPhone;
+	
+	@Email(message="이메일형식에 맞지 않습니다")
 	private String empEmail;
 	private String empPostcode;
 	private String empAddress;
@@ -36,26 +48,32 @@ public class Employee implements UserDetails {
 	private String empRetiredYn;
 	private String empProfileOriName;
 	private String empProfileReName;
-	private String deptCode;
-	private String jobCode;
+	private String empRole;
+	private Department deptCode;
+	private Job jobCode;
+	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auth=new ArrayList<>();
-		if(empId.equals("admin")) {
+		if(deptCode != null && deptCode.getDeptCode().equals("D1")) {
 			auth.add(new SimpleGrantedAuthority(MyAuthority.ADMIN.name()));
+		}else if(deptCode != null && deptCode.getDeptCode().equals("D2")){
+			auth.add(new SimpleGrantedAuthority(MyAuthority.HR.name()));
+		}else {
+			auth.add(new SimpleGrantedAuthority(MyAuthority.EMP.name()));
 		}
-		auth.add(new SimpleGrantedAuthority(MyAuthority.USER.name()));
-		return null;
+		return auth;
 	}
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.empId;
+		return empId;
 	}
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return this.empPw;
+		return empPw;
 	}
 	
 	@Override

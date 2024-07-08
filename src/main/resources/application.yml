@@ -1,0 +1,72 @@
+server: 
+  port: 9090
+
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: yoon3525  
+    password: yoon3525
+  thymeleaf: 
+    enabled: false
+  mvc:
+    view:
+      prefix: /WEB-INF/views/ 
+      suffix: .jsp
+  hikari:
+      maximum-pool-size: 10
+      idle-timeout: 3
+      minimum-idle: 3
+#logging:
+#  level:
+#    root: debug
+#  config: 
+#    import:
+#    - logdata.properties
+#logging:
+#  level:
+#    root: debug
+mybatis: 
+  config-location: classpath:config/mybatis-config.xml
+  mapper-locations: classpath:mappers/*-mapper.xml
+#  jpa:
+#    hibernate:
+#      ddl-auto: update #create,none,update
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#      show-sql: true
+
+#  mvc:
+#    view:
+#      prefix: /templates/
+#      suffix: .mustache
+# pom.xml에 mustache를 집어넣었기 때문에 여기다 안쓰고 생략해도 상관없다.-> 자동으로 위치가 잡힌다
+
+
+
+#  servlet: 
+#    multipart:
+#      max-file-size: 500MB
+#  config:
+#    import:
+#    - datasource.properties
+#    - logdata.properties
+    
+
+
+
+
+
+
+
+# 사용자정의 프로퍼티값 설정
+# 만약 리눅스를 사용한다면?
+#linux: 
+#  home: /home/goodee
+#  url: 14.36.141.71
+#  port: 1234
+#  
+## 환경변수값 가져오기
+#os: 
+#  path: ${path}
+#  javahome: ${JAVA_HOME}
