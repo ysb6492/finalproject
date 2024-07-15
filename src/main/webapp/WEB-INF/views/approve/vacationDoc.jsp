@@ -3,6 +3,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+
 <fmt:setLocale value="ko_KR"/>
 <%
     java.util.Date now = new java.util.Date();
@@ -337,7 +339,7 @@
                     </tr>
                     <tr>
                         <th>문서번호</th>
-                        <td>1111-2222</td>
+                        <td id="docNoField">${nextDocNo}</td>
                     </tr>
                 </table>
             </div>
@@ -356,54 +358,62 @@
 	                    </tr>
                 	</tbody>
                 </table>
-                
             </div>
         </div>
         <div class="form-section">
-            <div class="form-group">
-                <label for="leave-type">* 휴가 종류</label>
-                <select id="leave-type">
-                    <option value="">선택</option>
-                    <option value="">연차</option>
-                    <option value="">연장근무</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="leave-period">* 휴가 기간</label>
-                <input type="date" id="leave-start">
-                <span>~</span>
-                <input type="date" id="leave-end">
-                <label for="usage-days">사용일수</label>
-                <input type="text" id="leave-days" ><!--readonly  -->
-                <span>일</span>
-            </div>
-            <div class="form-group">
-                <label for="leave-reason">* 휴가 사유</label>
-                <textarea id="leave-reason"></textarea>
-            </div>
-        </div>
-        <br>
-        <div class="form-notes">
-            <p>[당일 반차 신청시] 시작일만 오전/오후 체크</p>
-            <p>[예비군/민방위 신청시] 동시에 스캔하여 파일 첨부</p>
-            <p>[경조휴가 신청시] 증빙서류 스캔하여 파일 첨부 (예: 청첩장 등본 등)</p>
-        </div>
-        <div class="file-attachment">
-            <label>파일첨부</label>
-            <input type="file">
-        </div>
-        
-    </div>
-   
-        
-    <div class="bottom-area">
-        <div class="buttons">
-            <button>결재요청</button>
-            <button>임시저장</button>
-            <button  onclick="applinebtn()">결재선 선택</button>
-            <button>취소</button>
-        </div>
-    </div>
+        	<form id="vacationForm"  method="post" enctype="multipart/form-data">
+            	<div class="form-group">
+                    <label for="doc-title">* 문서 제목</label>
+                    <input type="text" id="doc-title" name="docTitle" required>
+                </div>
+            	<div class="form-group">
+	                <label for="doc-category">* 휴가 종류</label>
+                    <select id="doc-category" name="docCategory" required>
+                        <option value="">선택</option>
+                        <option value="연차">연차</option>
+                        <option value="연장근무">반차</option>
+                    </select>
+            	</div>
+	            <div class="form-group">
+	                <label for="leave-period">* 휴가 기간</label>
+	                <input type="date" id="leave-start" name="leaveStart" required>
+	                <span>~</span>
+	                <input type="date" id="leave-end" name="leaveEnd" required>
+	                <label for="usage-days">사용일수</label>
+	                <input type="text" id="leave-days" name="leaveDays" readonly><!--  -->
+	                <span>일</span>
+	            </div>
+	            <div class="form-group">
+	                <label for="leave-reason">* 휴가 사유</label>
+	                <textarea id="leave-reason" name="docContent" required></textarea>
+	            </div>
+      			
+      			<!-- 넣어가기 -->
+      			<input type="hidden" id="observers" name="observers">
+      			
+      			
+		        <br>
+		        <div class="form-notes">
+		            <p>[당일 반차 신청시] 시작일만 오전/오후 체크</p>
+		            <p>[예비군/민방위 신청시] 동시에 스캔하여 파일 첨부</p>
+		            <p>[경조휴가 신청시] 증빙서류 스캔하여 파일 첨부 (예: 청첩장 등본 등)</p>
+		        </div>
+		        <div class="file-attachment">
+		            <label for="files">파일첨부</label>
+		            <input type="file" id="files" name="files" multiple>
+		        </div>
+        		<div class="bottom-area">
+			        <div class="buttons">
+			            <button type="submit">결재요청</button>
+			            <button type="submit">임시저장</button>
+			            <button  onclick="applinebtn()">결재선 선택</button>
+			            <button type="button">취소</button>
+			        </div>
+    			</div>
+    		</form>
+    	</div>
+     </div>  
+
     
 
     <!-- 모달창 -->
@@ -446,7 +456,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>참조자</th>
+                                <th>검토자</th>
                                 <th>이름</th>
                                 <th>부서</th>
                                 <th>직급</th>
@@ -475,25 +485,29 @@
             <div class="modal-footer">
                 <button class="confirm-btn">확인</button>
                 <button class="cancel-btn">취소</button>
-                <button class="reference-btn">참조자로 추가</button>
+                <button class="reference-btn">검토자로 추가</button>
                 <button class="approver-btn">결재자로 추가</button>
             </div>
         </div>
     </div>
 
     <script>
-     let selectedEmployee = null; 
+     	let selectedEmployee = null; 
 	    let selectedApprover = null;
 	    let selectedEmployees = [];
-    
+	    let reviewerSequence = 1; // 검토자들의 순번을 동일하게 설정
+
+    	
+	    //결재버튼 눌러서 모달창 띄우기
     	function applinebtn(){
-    		document.getElementById('approvalModal').style.display = 'block';
-    		const modal = document.getElementById('approvalModal');
+    		document.getElementById("approvalModal").style.display = "block";
+    		const modal = document.getElementById("approvalModal");
     		const span = document.getElementsByClassName("close")[0];
             const confirmBtn = document.querySelector(".modal-footer .confirm-btn");
             const cancelBtn = document.querySelector(".modal-footer .cancel-btn");
             const referenceBtn = document.querySelector(".modal-footer .reference-btn");
             const approverBtn = document.querySelector(".modal-footer .approver-btn");
+            
             
             
          	// 엑스버튼 눌러서 닫는거
@@ -513,26 +527,28 @@
             }
          	
          	
-         	// 참조자로 추가 버튼 클릭 시
+         	// 중간결재자로 추가 버튼 클릭 시
             referenceBtn.onclick = function() {
                 if (selectedEmployee) {
-                	selectedEmployee.type = 'reference';
-                    console.log("참조자 추가: ", selectedEmployee);
+                	selectedEmployee.type = "reference";
+                    console.log("검토자 추가: ", selectedEmployee);
                     
+                    selectedEmployee.sequence = reviewerSequence; // 동일한 순번 설정
+
                     selectedEmployees.push(selectedEmployee);
                     
-                    const newRow = '<tr>' +
-                    '<td>참조자</td>' +
-                    '<td>' + selectedEmployee.name + '</td>' +
-                    '<td>' + selectedEmployee.dept + '</td>' +
-                    '<td>' + selectedEmployee.job + '</td>' +
-                    '</tr>';
+                    const newRow = "<tr>" +
+                    "<td>검토자</td>" +
+                    "<td>" + selectedEmployee.name + "</td>" +
+                    "<td>" + selectedEmployee.dept + "</td>" +
+                    "<td>" + selectedEmployee.job + "</td>" +
+                    "</tr>";
                 
-   				 /* document.querySelector('#referenceTableBody').insertAdjacentHTML('beforeend', newRow); */
-   				 $('#referenceTableBody').append(newRow); 
+   				 /* document.querySelector("#referenceTableBody").insertAdjacentHTML("beforeend", newRow); */
+   				 $("#referenceTableBody").append(newRow); 
    				 
+   				 selectedEmployee = null; // Reset 
    				 
-   				selectedEmployee = null; // Reset selected employee
                	} else {
                     console.log("선택된 직원이 없습니다.");
                 }
@@ -540,19 +556,20 @@
         	 // 결재자로 추가 버튼 클릭 시
        	    approverBtn.onclick = function() {
                 if (selectedEmployee) {
-                	selectedEmployee.type = 'approver';
+                	selectedEmployee.type = "approver";
                     console.log("결재자 추가: ", selectedEmployee);
-                    
+                    selectedEmployee.sequence = reviewerSequence+ 1; // 별도의 순번 지정
+
                     selectedApprover = selectedEmployee;
                     
-                    const newRow = '<tr>' +
-                    '<td>결재자</td>' +
-                    '<td>' + selectedEmployee.name + '</td>' +
-                    '<td>' + selectedEmployee.dept + '</td>' +
-                    '<td>' + selectedEmployee.job + '</td>' +
-                    '</tr>';
+                    const newRow = "<tr>" +
+                    "<td>결재자</td>" +
+                    "<td>" + selectedEmployee.name + "</td>" +
+                    "<td>" + selectedEmployee.dept + "</td>" +
+                    "<td>" + selectedEmployee.job + "</td>" +
+                    "</tr>";
    
-                     $('#approveTableBody').append(newRow); 
+                     $("#approveTableBody").append(newRow); 
                      
                      selectedEmployee = null; // Reset selected employee
                 } else {
@@ -564,103 +581,161 @@
             	const approvalSection = document.querySelector(".approval");
                 approvalSection.innerHTML = ""; // 기존 테이블 초기화
 
+                let observers = [];
+                
+                
                 selectedEmployees.forEach(employee => {
                     const table = document.createElement("table");
                     table.innerHTML = 
-                        '<tbody>' +
-                            '<tr>' +
-                                '<th rowspan="3">참조자</th>' +
-                                '<td style="height:5px !important;">' + employee.job + '</td>' +
-                            '</tr>' +
-                            '<tr>' +
-                                '<td style="height:70px !important;">서명</td>' +
-                            '</tr>' +
-                            '<tr>' +
-                                '<td style="height:5px !important;">' + employee.name + '</td>' +
-                            '</tr>' +
-                        '</tbody>';
+                        "<tbody>" +
+                            "<tr>" +
+                                "<th rowspan='3'>검토자</th>" +
+                                "<td style='height:5px !important;'>" + employee.job + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                                "<td style='height:70px !important;'>서명</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                                "<td style='height:5px !important;'>" + employee.name + "</td>" +
+                            "</tr>" +
+                        "</tbody>";
                     approvalSection.appendChild(table);
+                    
+                    observers.push(employee.id + ":" + employee.sequence);
+                    console.log("검토자 추가: "+observers);
                 });
 
                 if (selectedApprover) {
                     const table = document.createElement("table");
                     table.innerHTML = 
-                        '<tbody>' +
-                            '<tr>' +
-                                '<th rowspan="3">결재자</th>' +
-                                '<td style="height:5px !important;">' + selectedApprover.job + '</td>' +
-                            '</tr>' +
-                            '<tr>' +
-                                '<td style="height:70px !important;">서명</td>' +
-                            '</tr>' +
-                            '<tr>' +
-                                '<td style="height:5px !important;">' + selectedApprover.name + '</td>' +
-                            '</tr>' +
-                        '</tbody>';
+                        "<tbody>" +
+                            "<tr>" +
+                                "<th rowspan='3'>결재자</th>" +
+                                "<td style='height:5px !important;'>" + selectedApprover.job + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                                "<td style='height:70px !important;'>서명</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                                "<td style='height:5px !important;'>" + selectedApprover.name + "</td>" +
+                            "</tr>" +
+                        "</tbody>";
                     approvalSection.appendChild(table);
+                    
+                    observers.push(selectedApprover.id + ":" + selectedApprover.sequence);
+                    console.log("결재자 추가 :"+observers);
                 }
+             	// 결재자 정보를 hidden 필드에 설정
+                document.getElementById('observers').value = observers.join(',');
 
                 modal.style.display = "none";
             }
         }
  
-    	$(document).ready(function() {
+   		$(document).ready(function() {
             $(".left-panel ul li").click(function() {
                 const deptCode = $(this).data("dept");
                 const $this = $(this);
                 
             	 // 기존에 명단이 있다면 제거
-                if ($this.next('ul').length) {
-                    $this.next('ul').remove();
+                if ($this.next("ul").length) {
+                    $this.next("ul").remove();
                 } else {
 	                $.ajax({
-	                    url: '/employee/employeelist',
-	                    type: 'GET',
+	                    url: "/employee/employeelist",
+	                    type: "GET",
 	                    data: { 
 	                    	deptCode: deptCode 
 	                    },
 	                    success: function(data) {
 	                    	
-	                        let list = '<ul>';
+	                        let list = "<ul>";
 	                       
 	                        data.forEach(function(employee) {
 	/*                         	console.log("직원 객체:", employee);
 	 */                        	console.log("직원 이름:", employee.empName);
 	                        	 /* list += "<li>-&nbsp; "+employee.empName+"</li>"; */ 
-	 								list += "<li data-empname='" + employee.empName + 
+	 								list += "<li data-empid='" + employee.empNo + "' data-empname='" + employee.empName + 
 	 								"' data-deptname='" + employee.deptCode.deptName + 
 	 								"' data-jobname='" + employee.jobCode.jobName + "'>-&nbsp; " + employee.empName +"("+employee.jobCode.jobName+")</li>";
 	                        });
-	                        list += '</ul>';
+	                        list += "</ul>";
 	                        console.log("나온 HTML:", list);
 	                   
 	                        $this.after(list);
 	                        
 	                        
-	                        //$this.next('ul').remove(); 
+	                        //$this.next("ul").remove(); 
 	                        // 생성된 ul을 토글 방식으로 표시
-	                         //$this.next('ul').toggle();
+	                         //$this.next("ul").toggle();
 	                        //
 	
 	                        // 클릭 시 토글
-	                        $this.next('ul').find('li').click(function() {
+	                        $this.next("ul").find("li").click(function() {
 	                            selectedEmployee = {
-	                                name: $(this).data('empname'),
-	                                dept: $(this).data('deptname'),
-	                                job: $(this).data('jobname')
+	                            	id: $(this).data("empid"),	
+	                            		
+	                                name: $(this).data("empname"),
+	                                dept: $(this).data("deptname"),
+	                                job: $(this).data("jobname")
 	                            };
 	                            console.log("selectedEmploye: ",selectedEmployee)
-	                            $(this).addClass('selected').siblings().removeClass('selected');
+	                            $(this).addClass("selected").siblings().removeClass("selected");
 	                        });
 	                        
 	                    },
 	                    error: function() {
-	                        alert('직원 목록을 불러오는 데 실패했습니다.');
+	                        alert("직원 목록을 불러오는 데 실패했습니다.");
 	                    }
 	                });
                 }
 	       });
-	          
+         	
+   		})
+   		
+        const leaveStart = document.getElementById('leave-start');
+        const leaveEnd = document.getElementById('leave-end');
+        const leaveDays = document.getElementById('leave-days');
+
+        leaveStart.addEventListener('change', calculateDays);
+        leaveEnd.addEventListener('change', calculateDays);
+
+        function calculateDays() {
+            const startDate = new Date(leaveStart.value);
+            const endDate = new Date(leaveEnd.value);
+
+            if (startDate && endDate && startDate <= endDate) {
+                const timeDiff = endDate - startDate;
+                const daysDiff = timeDiff / (1000 * 3600 * 24) + 1;
+                leaveDays.value = daysDiff;
+            } else {
+                leaveDays.value = '';
+            }
+        }
+        
+    	
+    	
+    	$(document).ready(function() {
+    	    // 휴가 신청서 제출 시 AJAX로 처리
+    	    $('#vacationForm').submit(function(event) {
+    	        event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
+
+    	        var formData = new FormData(this);
+    	        $.ajax({
+    	            url: '${path}/approve/ajaxWriteVacation', // Controller의 AJAX 처리 URL
+    	            type: 'POST',
+    	            data: formData,
+    	            processData: false,
+    	            contentType: false,
+    	            success: function(response) {
+    	                $('.content').html(response); // draftList.jsp를 .content div에 로드시키기
+    	                alert("기안문서가 제출됩니다")
+    	            },
+    	            error: function(error) {
+    	                alert('휴가 신청서 제출 중 오류가 발생했습니다.');
+    	            }
+    	        });
+    	    });
     	});
         
     </script>

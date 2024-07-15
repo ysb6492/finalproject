@@ -11,9 +11,10 @@
 <body>
     <div class="container">
         <div class="alert alert-danger mt-5">
-            <strong>에러!</strong> ${msg}
+            <!-- <strong>에러!</strong>  -->
+            ${msg}
         </div>
-        <a href="${loc}" class="btn btn-primary">확인</a>
+        <a href="${path} ${loc}" class="btn btn-primary">확인</a>
     </div>
 </body>
 </html>

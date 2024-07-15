@@ -8,7 +8,7 @@ import org.springframework.web.bind.support.SessionStatus;
 @Controller
 public class HomeController {
 	
-    @RequestMapping("/login")
+    @RequestMapping("/")
     public String login() {
     	return "employee/login";
     }

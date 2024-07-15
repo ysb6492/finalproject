@@ -1,16 +1,18 @@
 package com.ah.spring.config;
 
-import org.springframework.context.annotation.Bean; 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.ah.spring.common.security.UserAuthenticationProvider;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -37,18 +39,28 @@ public class SecurityConfig {
                         .usernameParameter("empId")
                         .passwordParameter("empPw")
                         .loginProcessingUrl("/loginproc")
-                        .defaultSuccessUrl("/main",true) // 로그인 성공 시 이동할 URL 설정
+                        .successHandler(loginSuccessHandler())
+                        //.defaultSuccessUrl("/main",true) // 로그인 성공 시 이동할 URL 설정
                         .permitAll() // 로그인 페이지 접근 허용
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/")
                         .permitAll() // 로그아웃 페이지 접근 허용
                 )
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(accessDeniedHandler())
                 )
                 .build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler loginSuccessHandler() {
+        return (request, response, authentication) -> {
+            HttpSession session = request.getSession();
+            session.setAttribute("loginEmployee", authentication.getPrincipal());
+            response.sendRedirect("/main");
+        };
     }
 
     @Bean

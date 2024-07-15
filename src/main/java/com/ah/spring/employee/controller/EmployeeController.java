@@ -147,4 +147,10 @@ public class EmployeeController {
             return "직원 정보 업데이트 중 오류가 발생했습니다: " + e.getMessage();
         }
     } 
+    
+    @GetMapping("/checkId")
+    @ResponseBody
+    public boolean checkId(@RequestParam String empId) {
+        return service.isEmpIdAvailable(empId);
+    }
 }

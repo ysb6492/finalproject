@@ -60,7 +60,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		
 	}
 	
-	
+	@Override
+	public int countByEmpId(String empId) {
+	    return session.selectOne("employee.countByEmpId", empId);
+	}
 //	@Override
 //	public List<Employee> selectEmpAll(SqlSession session, Map<String, Integer> param) {
 //		return session.selectList("selectEmpAll");

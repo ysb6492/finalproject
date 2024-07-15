@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,4 +24,5 @@ public class Board {
 	private int boardHits;
 //	private int fileAttached;
 	private List<Attachment> files = new ArrayList<>();
+	 private List<BoardComment> comments = new ArrayList<>(); 
 }

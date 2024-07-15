@@ -1,6 +1,7 @@
 package com.ah.spring.approve.model.dto;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,11 +13,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LeaveReq {
 	private int leaveNo;
-	private int docNo;
-	private String leaveType;
-	private Date leaveStart;
-	private Date leaveEnd;
-	private String leaveReason;
-	private Date createdAt;
-	private Date updatedAt;
+    private int docNo;
+    private String leaveType;
+    private Date leaveStart;
+    private Date leaveEnd;
+    private String leaveReason;
+    private Date createdAt;
+    private Date updatedAt;
+    private String halfDay;
+    private int leaveDays;
 }

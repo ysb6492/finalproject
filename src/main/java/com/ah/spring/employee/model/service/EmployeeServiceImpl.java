@@ -71,6 +71,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		dao.updateEmployee(employee);
 		
 	}
+	@Override
+	public boolean isEmpIdAvailable(String empId) {
+	    return dao.countByEmpId(empId) == 0;
+	}
 	 
 	
 	

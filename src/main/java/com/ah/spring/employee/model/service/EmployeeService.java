@@ -24,5 +24,7 @@ public interface EmployeeService {
 	Employee selectEmpByNo(int empNo);
 
 	void updateEmployee(Employee employee);
+
+	boolean isEmpIdAvailable(String empId);
 	
 }

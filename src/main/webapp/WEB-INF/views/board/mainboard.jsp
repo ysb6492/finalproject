@@ -75,13 +75,13 @@
     <div class="board-container">
         <aside class="sidebar">
             <h2>전사게시판</h2>
-            <button class="new-board-btn" onclick="createNewPost()">새 글 쓰기</button>
+            <button class="new-board-btn" onclick="loadBoardWritePage()">새 글 쓰기</button>
             <ul class="menu">
                 <li>
                     <a href="#">게시판</a>
                     <ul style="text-align: center;">
-                        <li><a href="#" onclick="">공지사항</a></li>
-                        <li><a href="#" onclick="loadBoardPage()">자유게시판</a></li>
+                        <li><a href="#" onclick="loadNoticeListPage">공지사항</a></li>
+                        <li><a href="#" onclick="loadBoardListPage()">자유게시판</a></li>
                     </ul>
                 </li>
             </ul>
@@ -93,7 +93,7 @@
         </div>
     </div>
     <script>
-    function loadBoardPage() {
+    function loadBoardListPage() {
         $.ajax({
             url: '${path}/board/boardlist',
             method: 'GET',
@@ -106,58 +106,20 @@
         });
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        // 게시글 데이터를 가져오는 예시 배열
-        const posts = [
-            {id: 1, title: '첫 번째 게시글', author: '홍길동', date: '2024-07-01', views: 100, likes: 5},
-            {id: 2, title: '두 번째 게시글', author: '이순신', date: '2024-07-02', views: 200, likes: 15},
-            // 추가 게시글 데이터
-        ];
-        
-        // 게시글 데이터를 테이블에 추가하는 함수
-        function loadPosts() {
-            const postTableBody = document.getElementById('postTableBody');
-            posts.forEach(post => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="checkbox-cell"><input type="checkbox"></td>
-                    <td>${post.id}</td>
-                    <td><a href="view.html?id=${post.id}">${post.title}</a></td>
-                    <td>${post.author}</td>
-                    <td>${post.date}</td>
-                    <td>${post.views}</td>
-                    <td>${post.likes}</td>
-                `;
-                postTableBody.appendChild(row);
-            });
-        }
-        
-        // 새글쓰기 버튼 클릭 시 호출되는 함수
-        function createNewPost() {
-            alert('새글쓰기 기능을 구현하세요.');
-        }
-        
-        // 페이지가 로드될 때 게시글 데이터를 로드합니다.
-        document.addEventListener('DOMContentLoaded', loadPosts);
-        
-        // 전체 선택 체크박스 기능
-        document.getElementById('selectAll').addEventListener('change', function() {
-            const checkboxes = document.querySelectorAll('#postTableBody input[type="checkbox"]');
-            checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+    function loadBoardWritePage() {
+        $.ajax({
+            url: '${path}/board/boardwrite',
+            method: 'GET',
+            success: function(response) {
+                $('.content').html(response);
+            },
+            error: function(error) {
+                alert('문서를 불러오는 중 오류가 발생했습니다.');
+            }
         });
+    }
+    
+
     </script>
 </body>
 </html>

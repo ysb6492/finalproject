@@ -16,75 +16,98 @@
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
 </head>
 <style>
-
 * {
     list-style: none;
     margin: 0;
     padding: 0;
     text-decoration: none;
-    font-family: Arial, sans-serif;
 }
-body, html {
-    width: 100%;
-    
-}
-
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
+    background-color: rgb(106, 90, 205); /* 변경된 배경색 */
     padding: 10px 20px;
-    height: 90px;
-    
+    color: white;
+    height: 100px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-.header .logo {
-    margin-right: 20px;
-}
-
 .header .logo img {
     height: 40px;
 }
-
+.header .logo a {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+.header .logo a span {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: white; /* 변경된 텍스트 색 */
+}
 .header .menu {
     display: flex;
     margin-bottom: 10px;
     margin-top: 20px;
     justify-content: center;
-    /* flex-grow: 2; */
-    
+    flex-grow: 2;
 }
-
 .header .menu a {
     display: flex;
-    flex-direction: column; /* 아이콘과 텍스트를 수직으로 정렬 */
+    flex-direction: column;
     align-items: center;
-    margin: 0 40px; /* 각 a 태그들 간의 간격을 조절 */
+    margin: 0 40px;
     text-decoration: none;
-    color: black;
+    color: white;
+    transition: color 0.3s, transform 0.3s;
+    position: relative;
+}
+.header .menu a:hover {
+    color:rgb(35, 23, 111); /* 변경된 호버 색 */
+    transform: scale(1.1);
+    
 }
 .header .menu a svg {
-    margin-bottom: 5px; /* 아이콘과 텍스트 사이의 간격을 조절 */
+    margin-bottom: 5px;
 }
-
-
-/* 내정보,로그아웃 토글 */
+.header .menu a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: rgb(35, 23, 111); /* 변경된 하단 바 색 */
+    transition: width 0.3s;
+    position: absolute;
+    bottom: -5px;
+}
+.header .menu a:hover::after {
+    width: 100%;
+}
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.search-bar input {
+    border: none;
+    outline: none;
+    padding: 5px;
+}
+.search-bar a {
+    margin-left: 10px;
+    color: #4A90E2; /* 변경된 검색 아이콘 색 */
+}
 .loginInfo {
-    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
-
-.loginInfo>div {
-    margin-right: 20px;
-}
-
-.loginInfo .dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.loginInfo .dropdown-menu {
+.dropdown-menu {
     display: none;
     position: absolute;
     right: 0;
@@ -93,23 +116,19 @@ body, html {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    min-width: 100px;
+    min-width: 150px;
     z-index: 1;
-    text-align: center;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
-
-.loginInfo .dropdown-menu li {
-    font-size: 12px;
-    color: black;
+.dropdown-menu li {
     padding: 12px 16px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s;
 }
-
-.loginInfo .dropdown-menu li:hover {
-    background-color: #e1e1e1;
+.dropdown-menu li:hover {
+    background-color: rgb(193, 184, 247); /* 변경된 호버 색 */
+    color: rgb(37, 22, 121);/* 변경된 호버 텍스트 색 */
 }
 
 </style>
@@ -119,8 +138,9 @@ body, html {
         <div class="header">
             <div style="width: 10%;">
                 <div class="logo">
-                    <img src="" alt="Logo"><span>FinalProject</span>
-                </div>
+				    <a href="${path}/main"><img src="" alt="Logo"></a>
+				    <a href="${path}/main"><span>FinalProject</span></a>
+				</div>
             </div>
             <div class="menu" style="width: 65%;">
                 <a href="${path }/employee/mainemployee">
@@ -208,28 +228,31 @@ body, html {
         </div>
     </header>
     <script>
-	    const navLinks = document.querySelectorAll('.nav-links a');
+    	
+	    const navLinks = document.querySelectorAll('.menu a');
 	    navLinks.forEach(link => {
 	        link.addEventListener('click', function() {
-	            link.classList.add('hover');
+	            navLinks.forEach(navLink => navLink.classList.remove('active'));
+	            link.classList.add('active');
 	        });
 	    });
 	
 	
 	    // 기본정보, 로그아웃 토글
-	    document.addEventListener("DOMContentLoaded",function(){
-	        const dropdownToggle = document.getElementById("dropdownToggle");
-	        const dropdownMenu = document.getElementById("dropdownMenu");
-	
-	        dropdownToggle.addEventListener("click",function(e){
-	            e.preventDefault();
-	            dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
-	        })
-	        window.addEventListener("click", function(event) {
-	            if (!dropdownToggle.contains(event.target)) {
-	                 dropdownMenu.style.display = "none";
-	             }
-	        });
-	    });
+	    document.addEventListener("DOMContentLoaded", function() {
+            const dropdownToggle = document.getElementById("dropdownToggle");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+
+            dropdownToggle.addEventListener("click", function(e) {
+                e.preventDefault();
+                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+            });
+
+            window.addEventListener("click", function(event) {
+                if (!dropdownToggle.contains(event.target)) {
+                    dropdownMenu.style.display = "none";
+                }
+            });
+        });
     </script>
     

@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
  */
 public class Employee implements UserDetails {
 
-	private String empNo;
+	private int empNo;
 	@NotEmpty(message = "id는 필수입력 사항입니다")
 	private String empId;
     @NotEmpty(message = "비밀번호는 필수입력 사항입니다")

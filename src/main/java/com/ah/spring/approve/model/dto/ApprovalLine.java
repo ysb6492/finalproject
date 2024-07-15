@@ -2,6 +2,8 @@ package com.ah.spring.approve.model.dto;
 
 import java.sql.Date;
 
+import com.ah.spring.employee.model.dto.Employee;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,11 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ApprovalLine {
-	private int lineNo;
-	private int docNo;
-	private int empNo;
-	private int appStatusCode;
-	private String appComment;
-	private Date appDate;
-	private int appSequence;
+	private int appvNo;
+    private AppDocument docNo; 
+    private Employee empNo; 
+    private int appvStatusCode;
+    private String appvComment;
+    private Date  appvDate;
+    private int appvSequence; //1대기,2승인,3반
 }

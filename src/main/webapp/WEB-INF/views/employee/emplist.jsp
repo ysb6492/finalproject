@@ -91,7 +91,8 @@
 	//전체 선택 체크박스 기능
 	document.getElementById('selectAll').addEventListener('change', function() {
 	    const checkboxes = document.querySelectorAll('#employeeTableBody input[type="checkbox"]');
-	    checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+	    checkboxes.forEach(
+	    		checkbox => checkbox.checked = this.checked);
 	});
 	function applyFilter() {
         const filterType = document.getElementById('filterType').value;
@@ -101,7 +102,8 @@
             url: '${path}/employee/emplist',
             type: 'GET',
             data: { 
-            	filterType: filterType, filterValue: filterValue 
+            	filterType: filterType, 
+            	filterValue: filterValue 
             },
             success: function(response) {
             	$('#employeeTableBody').html($(response).find('#employeeTableBody').html());
@@ -112,7 +114,9 @@
             }
         });
     }
+	//직원 삭제기능 관련
 	function deleteEmployees(){
+		//배열로
 		const selectedEmployees = Array.from(document.querySelectorAll('#employeeTableBody input[type="checkbox"]:checked'))
         .map(cb => cb.value);
 
@@ -127,7 +131,8 @@
 			data: JSON.stringify(selectedEmployees),
             success: function(response) {
                 alert('삭제 성공');
-                location.reload(); // 페이지를 새로고침하여 변경 사항을 반영
+                // 페이지를 새로고침하여 변경 사항을 반영한거
+                location.reload(); 
             },
             error: function(error) {
                 alert('삭제 실패: ' + error.responseText);

@@ -98,41 +98,35 @@
                      <th>작성자</th>
                      <th>작성일</th>
                      <th>조회</th>
-                     <th>좋아요</th>
                  </tr>
              </thead>
              <tbody id="postTableBody">
-                 <!-- JavaScript로 게시글 목록을 여기에 추가합니다 -->
+                 <c:forEach var="board" items="${boards}">
+                     <tr>
+                         <td class="checkbox-cell"><input type="checkbox" name="boardNo" value="${board.boardNo}"></td>
+                         <td>${board.boardNo}</td>
+                         <td><a href="${path}/board/detail?boardNo=${board.boardNo}">${board.boardTitle}</a></td>
+                         <td>${board.boardWriter}</td>
+                         <td><fmt:formatDate value="${board.createdAt}" pattern="yyyy-MM-dd"/></td>
+                         <td>${board.boardHits}</td>
+                     </tr>
+                 </c:forEach>
              </tbody>
          </table>
      </div>
      <nav>
-         <ul class="pagination">
-             <li class="page-item">
-                 <a class="page-link" href="#" aria-label="Previous">
-                     <span aria-hidden="true">&laquo;</span>
-                 </a>
-             </li>
-             <li class="page-item active"><a class="page-link" href="#">1</a></li>
-           
-             <li class="page-item">
-                 <a class="page-link" href="#" aria-label="Next">
-                     <span aria-hidden="true">&raquo;</span>
-                 </a>
-             </li>
-         </ul>
+         ${pageBar}
      </nav>
      <div class="search-bar">
-         <select>
-             <option>전체기간</option>
-             <!-- Add more options as needed -->
-         </select>
-         <select>
-             <option>제목+내용</option>
-             <!-- Add more options as needed -->
-         </select>
-         <input type="text" placeholder="검색">
-         <button class="btn btn-secondary">검색</button>
+         <form action="${path}/board/boardlist" method="get">
+             <select name="filterType">
+                 <option value="title">제목</option>
+                 <option value="content">내용</option>
+                 <option value="writer">작성자</option>
+             </select>
+             <input type="text" name="filterValue" placeholder="검색">
+             <button class="btn btn-secondary" type="submit">검색</button>
+         </form>
       </div>
 </body>
 </html>

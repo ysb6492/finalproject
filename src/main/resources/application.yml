@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@localhost:1521:xe
+    url: jdbc:oracle:thin:@14.36.141.71:8877:xe
     username: yoon3525  
     password: yoon3525
   thymeleaf: 
@@ -14,9 +14,10 @@ spring:
       prefix: /WEB-INF/views/ 
       suffix: .jsp
   hikari:
-      maximum-pool-size: 10
+      maximum-pool-size: 3
       idle-timeout: 3
-      minimum-idle: 3
+      minimum-idle: 1 
+  
 #logging:
 #  level:
 #    root: debug

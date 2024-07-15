@@ -22,6 +22,7 @@ public interface EmployeeDao {
     void deleteEmployees(SqlSession session, List<Integer> empNos);
 	Employee selectEmpByNo(SqlSession session, int empNo);
 	void updateEmployee(Employee employee);
+	int countByEmpId(String empId);
 
 
 	

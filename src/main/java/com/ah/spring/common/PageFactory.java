@@ -52,15 +52,7 @@ public class PageFactory {
             pageBar.append("</li>");
         }
         pageBar.append("</ul>");
-		
-		
-		
-//		pageBar.append("<script>");
-//		pageBar.append("function fn_paging(pageNo){");
-//		pageBar.append("$.get('"+url+"?cPage='+pageNo+'&numPerpage="+numPerpage+"',(response)=>{"
-//				+ " $('.content').html(response)});");
-//		pageBar.append("}");
-//		pageBar.append("</script>");
+
 		
         pageBar.append("<script>");
         pageBar.append("function fn_paging(pageNo) {");
