@@ -54,3 +54,5 @@
 ---
 
 ## DB구조
+<img width="1007" alt="erd" src="https://github.com/user-attachments/assets/d7518334-ee7b-4931-a196-7f3617bb1d18">
+
