@@ -86,7 +86,9 @@
 <body>
     <div class="container">
         <div class="profile">
-            <img src="" alt="프로필 사진">
+            <c:if test="${not empty employee.empProfileReName}">
+                <img src="${path}/resources/upload/employee/${employee.empProfileReName}" alt="Profile Picture" width="100" height="100">
+            </c:if>
             <div class="profile-info">
                 <table>
                     <tr>

@@ -24,5 +24,7 @@ public class Board {
 	private int boardHits;
 //	private int fileAttached;
 	private List<Attachment> files = new ArrayList<>();
-	 private List<BoardComment> comments = new ArrayList<>(); 
+	private List<BoardComment> comments = new ArrayList<>(); 
+    private String writerProfileReName; // 추가된 필드
+
 }

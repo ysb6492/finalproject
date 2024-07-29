@@ -31,6 +31,7 @@ public class SecurityConfig {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/**","/main","login","/approve","/board").permitAll() // 특정 권한
+                        .requestMatchers("/employee/**").hasAnyAuthority("ADMIN", "HR") 
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(provider)

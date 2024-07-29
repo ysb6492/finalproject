@@ -46,6 +46,7 @@
     font-weight: bold;
     margin-left: 10px;
     color: white; /* 변경된 텍스트 색 */
+    text-decoration: none;
 }
 .header .menu {
     display: flex;
@@ -65,7 +66,7 @@
     position: relative;
 }
 .header .menu a:hover {
-    color:rgb(35, 23, 111); /* 변경된 호버 색 */
+    color:rgb(35, 23, 111); 
     transform: scale(1.1);
     
 }
@@ -77,13 +78,16 @@
     display: block;
     width: 0;
     height: 2px;
-    background: rgb(35, 23, 111); /* 변경된 하단 바 색 */
+    background: rgb(35, 23, 111); 
     transition: width 0.3s;
     position: absolute;
     bottom: -5px;
 }
 .header .menu a:hover::after {
     width: 100%;
+}
+span {
+    text-decoration: none;
 }
 .search-bar {
     display: flex;
@@ -100,7 +104,7 @@
 }
 .search-bar a {
     margin-left: 10px;
-    color: #4A90E2; /* 변경된 검색 아이콘 색 */
+    color: #4A90E2; 
 }
 .loginInfo {
     display: flex;
@@ -138,7 +142,6 @@
         <div class="header">
             <div style="width: 10%;">
                 <div class="logo">
-				    <a href="${path}/main"><img src="" alt="Logo"></a>
 				    <a href="${path}/main"><span>FinalProject</span></a>
 				</div>
             </div>
@@ -184,10 +187,17 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-diagram-3" viewBox="0 0 16 16">
                       <path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H14a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 2 7h5.5V6A1.5 1.5 0 0 1 6 4.5zM8.5 5a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5zM0 11.5A1.5 1.5 0 0 1 1.5 10h1A1.5 1.5 0 0 1 4 11.5v1A1.5 1.5 0 0 1 2.5 14h-1A1.5 1.5 0 0 1 0 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5A1.5 1.5 0 0 1 7.5 10h1a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
                     </svg>
-                    <span>조직도</span>
+                    <span>주소록</span>
                 </a>
             </div>
-            <div class="loginInfo" style="display: flex ; width: 30%; justify-content: space-between; margin-right: 20px;">      	
+            <div class="loginInfo" style="display: flex ; width: 30%; justify-content: end; margin-right: 20px;">      	
+                <div>
+                	<c:if test="${not empty loginEmployee }">
+                		<span >
+                			<c:out value="${loginEmployee.empName}님 환영"/>               			
+                		</span>
+                	</c:if>              	
+                </div>
                 <div class="search-bar">
                     <input type="search" placeholder="search">
                     <a href="#">
@@ -195,15 +205,6 @@
 					  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
 					</svg>
                     </a>
-                </div>
-                <div>
-                	<c:if test="${not empty loginEmployee }">
-                		<span >
-                			<c:out value="${loginEmployee.empName}님 환영"/>
-                			
-                		</span>
-                	</c:if>
-                	
                 </div>
                 <div >
                 	<a href="#" >

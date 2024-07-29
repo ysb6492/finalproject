@@ -11,7 +11,7 @@
     display: flex;
     background-color: #e9ecf2;
     min-height: 100vh;
-    padding: 0px 20px 20px 0;
+    padding: 0px 0 20px 0;
 }
 
 aside.sidebar {
@@ -21,13 +21,12 @@ aside.sidebar {
     padding: 20px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 0px;
-    margin-right: 20px;
+    margin-right: 0
 }
 
 .profile-card {
-    background-color: #ecf0f1;
+    background-color: white;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     padding: 20px;
     text-align: center;
     color: #2c3e50;
@@ -39,9 +38,10 @@ aside.sidebar {
 .profile-card img {
     border-radius: 50%;
     margin-bottom: 15px;
-    border: 3px solid #2c3e50;
-    height: 100px;
-    width: 100px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    
+    height: 120px;
+    width: 110px;
 }
 
 .profile-card h2 {
@@ -65,27 +65,37 @@ aside.sidebar {
     color: #00A6DE;
     font-weight: bold;
 }
+.custom-btn {
+    padding: 3px 6px; 
+    font-size: 15px; 
+    margin-right: 10px;
+    border: 2px solid rgb(37, 22, 121); /* 테두리 색상 */
+    color: rgb(37, 22, 121); /* 글자 색상 */
+    background-color: transparent; /* 배경색을 투명하게 */
+    border-radius: 20px; /* 둥근 모서리 */
+    transition: background-color 0.2s, color 0.2s; /* 호버 효과를 위한 트랜지션 */
+}
 
-.alram li {
+.custom-btn:hover {
+    background-color: rgb(193, 184, 247); /* 호버 시 배경색 */
+    border: 2px solid rgb(193, 184, 247); /* 테두리 색상 */
+    color: white; /* 호버 시 글자 색상 */
+}
+.time-record {
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
-    border-bottom: 1px solid #bdc3c7;
+    margin-bottom: 5px;
 }
 
-.alram a {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    text-decoration: none;
-    color: #2c3e50;
-    transition: background-color 0.3s;
+.time-status {
+    color: #9e9e9e; /* 텍스트 색상 */
 }
 
-.alram a:hover {
-    background-color: #bdc3c7;
-    color: #2c3e50;
-}
+
+
+
+
+
 
 main.main-content {
     flex: 1;
@@ -112,16 +122,16 @@ section#right > div {
 
 section#right > div:first-child > div:first-child {
     border: 1px solid rgb(193, 184, 247);
-    width: 70%;
-    height: 350px;
+    width: 50%;
+    height: 300px;
     padding: 10px;
     margin: 20px 20px 0 20px;
 }
 
 section#right > div:first-child > div:last-child {
     border: 1px solid rgb(193, 184, 247);
-    width: 25%;
-    height: 350px;
+    width: 50%;
+    height: 300px;
     padding: 10px;
     margin: 20px 0 0 0;
 }
@@ -139,23 +149,17 @@ section#right > div:nth-child(2) > div:first-child {
 
 section#right > div:nth-child(2) > div:last-child {
     border: 1px solid rgb(193, 184, 247);
-    width: 45.5%;
+    width: 50%;
     margin-left: 30px;
 }
 
-#calendar-container {
-    margin-left: 20px;
-    margin-right: 35px;
-    margin-top: 20px;
-}
+
 
 #calendar {
-    border: 1px solid black;
-    width: 100%;
-    height: 700px;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 10px;
+    margin:0px;
 }
 
 .fc-event,
@@ -179,6 +183,14 @@ section#right > div:nth-child(2) > div:last-child {
     color: #2c3e50 !important;
     text-decoration: none !important;
 }
+.fc-prev-button, .fc-next-button {
+    font-size: 12px; /* 글씨 크기 줄이기 */
+    padding: 3px 5px; /* 버튼의 내부 여백 줄이기 */
+    width: auto; /* 버튼의 너비 자동 조정 */
+    height: auto; /* 버튼의 높이 자동 조정 */
+    min-width: 30px; /* 최소 너비 설정 */
+    min-height: 30px; /* 최소 높이 설정 */
+}
 </style>
 
 <section class="main-container">
@@ -186,44 +198,58 @@ section#right > div:nth-child(2) > div:last-child {
         <div class="profile-card">
             <div class="profile-info">
                 <div class="photo">
-                    <img src="" alt="">
+					<c:choose>
+	                    <c:when test="${not empty loginEmployee.empProfileReName}">
+	                        <img src="${path}/resources/upload/employee/${loginEmployee.empProfileReName}" alt="Profile Picture" width="60" height="60">
+	                    </c:when>
+	                    <c:otherwise>
+	                        <img src="${path}/resources/images/basicprofile.png" alt="Basic Profile Picture"  width="60" height="60">
+	                    </c:otherwise>
+	                </c:choose>
                 </div>
                 <div class="info" style="text-align:center;">
-                    <span class="name" style="display: inline-block; margin-right:10px"><c:out value="${loginEmployee.empName}"/></span>
-                    <span class="position" style="display: inline-block;"><c:out value="${loginEmployee.jobCode.jobName}"/></span>
-                    <span class="department"><c:out value="${loginEmployee.deptCode.deptName}"/></span>
+                    <span class="name" style="display: inline-block; margin-right:10px; font-weight:bold;"><c:out value="${loginEmployee.empName}"/></span><br>
+                    <span class="department" style="font-weight:bolder;"><c:out value="${loginEmployee.deptCode.deptName}"/></span>
+                    <span class="position" style="display: inline-block; font-weight:bold;"><c:out value="${loginEmployee.jobCode.jobName}"/></span>
                 </div> 
             </div>
-            <div>
-                <ul class="alram" style="font-size: 12px;">
-                    <li><a href=""><span>결재할 문서</span><span>1</span></a></li> 
-                    <li><a href=""><span>받은 이메일</span><span>2</span></a></li> 
-                </ul>
-            </div>  
+            <div style="margin-top:20px">
+			    <button type="button" class="btn btn-outline-success custom-btn" onclick="">출근하기</button>
+			    <button type="button" class="btn btn-outline-success custom-btn" onclick="">퇴근하기</button>
+			</div>  
+            <div style="margin-top:10px; font-size:14px;">
+			    <div class="time-record">
+			        <span>출근시간</span><span class="time-status" >미등록</span>
+			    </div>
+			    <div class="time-record">
+			        <span>퇴근시간</span><span class="time-status">미등록</span>
+			    </div>
+			</div>
         </div>
     </aside>
     <main class="main-content">
         <section id="right">
             <div>
-                <div >
-                    aaa
+                <div style="background-color: rgb(188,146,252,0.3); border:none;">
+                    <h4 style="font-weight:bold;">전자결재</h4>
+                    <div style="margin:20px 0 0 20px;">
+	                    <p style="font-weight:600;">결재 대기중인 문서 :</p>
+	                    <p style="font-weight:600; margin-top:30px;">결재 진행중인 문서 :</p>
+	                    <p style="font-weight:600; margin-top:30px;">결재 반려된 문서 :</p>
+	                    <p style="font-weight:600; margin-top:30px;">결재 승인된 문서 :</p>
+                    </div>
                 </div>
-                <div>
-                    ddd
+                <div style="background-color:rgb(143,242,246,0.3); border:none;">
+                    게시판/공지사항
                 </div>
+                
             </div>
-            <div>
-                <div>
-                    메일/결재
-                </div>
-                <div>
-                    공지사항/QnA
-                </div>
+            <div >
+                <div id="calendar" style="width:100%; margin-left:0px">
+	            </div>
+
             </div>
-            <div id="calendar-container">
-                <div id="calendar">
-                </div>
-            </div>
+            
         </section>
     </main>
 </section>
@@ -234,7 +260,7 @@ section#right > div:nth-child(2) > div:last-child {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                height: '700px', // calendar 높이 설정
+                height: '600px', // calendar 높이 설정
                 expandRows: true, // 화면에 맞게 높이 재설정
                 slotMinTime: '08:00', // Day 캘린더에서 시작 시간
                 slotMaxTime: '20:00', // Day 캘린더에서 종료 시간

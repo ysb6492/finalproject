@@ -65,7 +65,7 @@ body {
 }
 
 .menu a:hover {
-    text-decoration: underline;
+    text-decoration:none;
 }
 
 .content {
@@ -346,11 +346,10 @@ table th, table td {
 		            <a href="#" class="submenu-toggle">개인 문서함</a>
 		            <ul style="text-align: center;">
 		                <li><a href="#" onclick="loadDraftDoc()">기안문서함</a></li>
-		                <li><a href="#" onclick="load()">임시저장함</a></li>
+		                <li><a href="#" onclick="loadTempSaveDoc()">임시저장함</a></li>
 		                <li><a href="#" onclick="loadPendingDocs()">결재문서함</a></li>
 		            </ul>
 		        </li>
-		        <li><a href="#">부서 문서함</a></li>
 		    </ul>
 		</aside>
         <div class="content">
@@ -440,8 +439,8 @@ table th, table td {
         <div class="form-select">
             <ul class="form-list">
                 <li><a href="#" onclick="vacationDoc()">휴가신청</a></li>
-                <li><a href="#" onclick="overtimeDoc()">연장근무신청</a></li>
                 <li><a href="#" onclick="expenseDoc()">지출결의서</a></li>
+                <li><a href="#" onclick="overtimeDoc()">연장근무신청</a></li>
             </ul>
             <div class="form-preview">
                 이미지 파일 넣기
@@ -482,6 +481,19 @@ table th, table td {
     function loadPendingDocs() {
         $.ajax({
             url: '${path}/approve/pendingList',  
+            method: 'GET',
+            success: function(response) {
+                $('.content').html(response);
+            },
+            error: function(error) {
+                alert('문서를 불러오는 중 오류가 발생했습니다.???');
+            }
+        });
+    }
+  //임시저장문서함 불러오기
+    function loadTempSaveDoc() {
+        $.ajax({
+            url: '${path}/approve/tempsaveList',  
             method: 'GET',
             success: function(response) {
                 $('.content').html(response);

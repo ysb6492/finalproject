@@ -11,17 +11,43 @@ public interface BoardService {
 
 	List<Board> selectBoardList(Map<String, Object> param);
     int selectBoardCount();
-    Board selectBoardById(int boardNo);
     int insertBoard(Board board);
-    int updateBoard(Board board);
-    int deleteBoard(int boardNo);
     
-    // 댓글 관련 메소드
+    //게시글 상세보기
+    Board selectBoardByNo(int boardNo);
+	List<Attachment> selectAttachmentsByBoardNo(int boardNo);
+	//댓글 불러올때
+	List<BoardComment> selectCommentsByBoardNo(int boardNo);
+	// 댓글 관련 메소드
     boolean addComment(BoardComment comment);
-    boolean deleteComment(int commentNo);
+	String getWriterProfileReName(String boardWriter);
+	int deleteBoard(int boardNo);
+	boolean deleteComment(int commentNo);
+//    int insertAttachment(Attachment attachment);
+
+    //댓글 불러올때
+
+    
+    
+    
+    int updateBoard(Board board);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
 
     //사진 첨부
-    int insertAttachment(Attachment attachment);
+	
 
 	
 

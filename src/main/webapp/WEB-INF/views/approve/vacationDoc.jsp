@@ -4,14 +4,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="loginEmployee" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 
 <fmt:setLocale value="ko_KR"/>
 <%
     java.util.Date now = new java.util.Date();
     request.setAttribute("now", now);
+    
+    // 현재 날짜를 yyyy-MM-dd 형식으로 변환
+    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+    String today = sdf.format(now);
 %>
 
- <c:set var="loginEmployee" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 
 <style>
     body {
@@ -21,7 +25,9 @@
         height: 100vh;
     }
     .container {
-        width: 90%;
+        width: 80%;
+        margin-left:20px;
+        margin-top:20px;
         max-width: 1100px;
         background: #fff;
         padding: 20px;
@@ -40,7 +46,8 @@
     .bottom-area {
         display: flex;
         margin-top: 20px;
-        justify-content: center;
+        justify-content: start;
+        
     }
     .buttons {
         display: flex;
@@ -49,12 +56,13 @@
     .buttons button {
         padding: 10px 20px;
         border: none;
-        background-color: #4CAF50;
+        background-color: rgb(106, 90, 205);
         color: white;
         cursor: pointer;
     }
     .buttons button:hover {
-        background-color: #45a049;
+        background-color: rgb(193, 184, 247);
+        color: rgb(37, 22, 121);
     }
     .header-section {
         display: flex;
@@ -180,144 +188,237 @@
     .info>table th, .approval>table th{
         background-color: #c3c3c3;
     }
+     /* 선택된 직원 목록 항목 스타일 */
+    .selected {
+        background-color: #d1e7dd;
+    }
     
 
 
     /* 모달창 스타일 */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
-        padding-top: 60px;
-    }
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+	padding-top: 60px;
+}
 
-    .modal-content {
-        background-color: #fefefe;
-        margin: 5% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        max-width: 800px;
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-    }
+.modal-content {
+    background-color: #ffffff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    width: 80%;
+    max-width: 900px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+}
 
-    .modal-header, .modal-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 0;
-        border-bottom: 1px solid #eee;
-    }
+.modal-header, .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
 
-    .modal-footer {
-        border-top: 1px solid #eee;
-        border-bottom: none;
-    }
+.modal-footer {
+    display: flex;
+    justify-content: space-between; /* 버튼을 양 끝으로 배치 */
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+}
 
-    .modal-header h2 {
-        margin: 0;
-    }
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+}
 
-    .modal-header .close {
-        color: #aaa;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-    }
+.modal-header .close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-    .modal-header .close:hover,
-    .modal-header .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
+.modal-header .close:hover,
+.modal-header .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
 
-    .modal-body {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 20px 0;
-    }
+.modal-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px 0;
+}
 
-    .modal-body .left-panel, .modal-body .right-panel {
-    	
-        width: 45%;
-    }
-    .left-panel{
-    	text-align:start;
-    }
+.left-panel {
+    width: 30%;
+    padding-right: 20px;
+    border-right: 1px solid #ddd;
+    max-height: 400px; /* 원하는 높이로 설정 */
+    overflow-y: auto;
+}
 
-    .modal-body .left-panel ul {
-        list-style-type: none;
-        padding: 0;
-    }
+.left-panel ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-    .modal-body .left-panel ul li {
-        margin: 5px 0;
-        cursor: pointer;
-    }
+.left-panel ul li {
+    margin: 5px 0;
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
 
-    .modal-body .left-panel ul li:hover {
-        background-color: #f0f0f0;
-    }
-
-    .modal-body .right-panel table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .modal-body .right-panel table, .modal-body .right-panel th, .modal-body .right-panel td {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-
-    .modal-body .right-panel th {
-        background-color: #f2f2f2;
-        text-align: left;
-    }
-
-    .modal-body .right-panel th, .modal-body .right-panel td {
-        text-align: center;
-    }
-
-    .modal-footer button {
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .modal-footer .confirm-btn {
-        background-color: #4CAF50;
-        color: white;
-    }
-
-    .modal-footer .cancel-btn {
-        background-color: #f44336;
-        color: white;
-    }
+.left-panel ul li.dept-name {
+    font-weight: bold;
+    font-size: 1.1em;
     
-    
-    
-    
-    
-    /* 선택된 직원 목록 항목 스타일 */
-    .selected {
-        background-color: #d1e7dd;
-    }
+}
+
+.left-panel ul li:hover {
+    background-color: #e6e6e6;
+}
+
+.right-panel {
+    width: 65%;
+    padding-left: 20px;
+}
+
+.approval-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.approval-table th, .approval-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.approval-table th {
+    background-color: #f0f0f0;
+    font-size: 1em;
+}
+
+.modal-footer button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+.modal-footer .left-buttons {
+    display: flex;
+    gap: 10px; /* 버튼 간격 조정 */
+}
+
+.modal-footer .right-buttons {
+    display: flex;
+    gap: 10px; /* 버튼 간격 조정 */
+}
+.modal-footer .confirm-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.modal-footer .confirm-btn:hover {
+    background-color: #218838;
+}
+.modal-footer .cancel-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.modal-footer .cancel-btn:hover {
+    background-color: #c82333;
+}
+
+.modal-footer .reference-btn, .modal-footer .approver-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-footer .reference-btn:hover, .modal-footer .approver-btn:hover {
+    background-color: #0069d9;
+}
+/* 하이라이트된 사원 스타일 */
+.left-panel ul li.selected {
+    background-color: rgb(180, 180, 180);
+    border-color: rgb(180, 180, 180);
+    color: black;
+}   
+
+
+.tree {
+    list-style: none;
+    padding-left: 20px;
+    position: relative;
+}
+
+.tree::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    background: #ccc;
+}
+
+.tree li {
+    margin: 0;
+    padding: 0;
+    padding-left: 20px;
+    line-height: 24px;
+    position: relative;
+}
+
+.tree li::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 10px;
+    height: 1px;
+    background: #ccc;
+}
+
+.tree li:last-child::before {
+    height: 12px;
+    top: 12px;
+}
 </style>
 <body>
     <div class="approveType">
         <h1>휴가신청</h1>
     </div>
-    
+    <div class="bottom-area">
+        <div class="buttons">
+            <button type="submit" onclick="submitForm(0)">결재요청</button>
+            <button type="submit" onclick="submitForm(4)">임시저장</button>
+            <button  onclick="applinebtn()">결재선 선택</button>
+			<button type="button" onclick="window.location.href='${path}/approve/mainapprove'">취소</button>
+        </div>
+	</div>
     <div class="container">
         <h1>휴가신청서</h1>
         <div class="header-section">
@@ -347,7 +448,7 @@
                 <table>
                 	<tbody>
 						<tr>
-	                        <th rowspan="3">참조 결재자</th>
+	                        <th rowspan="3">결재자</th>
 	                        <td style="height:5px !important;" >직급</td>
 	                    </tr>
 	                    <tr>
@@ -362,30 +463,31 @@
         </div>
         <div class="form-section">
         	<form id="vacationForm"  method="post" enctype="multipart/form-data">
+        	
             	<div class="form-group">
                     <label for="doc-title">* 문서 제목</label>
                     <input type="text" id="doc-title" name="docTitle" required>
                 </div>
             	<div class="form-group">
 	                <label for="doc-category">* 휴가 종류</label>
-                    <select id="doc-category" name="docCategory" required>
+                    <select id="doc-category" name="docCategory" >
                         <option value="">선택</option>
-                        <option value="연차">연차</option>
-                        <option value="연장근무">반차</option>
+                        <option value="연차신청서">연차신청서</option>
+                        <option value="반차신청서">반차신청서</option>
                     </select>
             	</div>
 	            <div class="form-group">
 	                <label for="leave-period">* 휴가 기간</label>
-	                <input type="date" id="leave-start" name="leaveStart" required>
+	                <input type="date" id="leave-start" name="leaveStart" >
 	                <span>~</span>
-	                <input type="date" id="leave-end" name="leaveEnd" required>
+	                <input type="date" id="leave-end" name="leaveEnd" >
 	                <label for="usage-days">사용일수</label>
 	                <input type="text" id="leave-days" name="leaveDays" readonly><!--  -->
 	                <span>일</span>
 	            </div>
 	            <div class="form-group">
 	                <label for="leave-reason">* 휴가 사유</label>
-	                <textarea id="leave-reason" name="docContent" required></textarea>
+	                <textarea id="leave-reason" name="docContent" ></textarea>
 	            </div>
       			
       			<!-- 넣어가기 -->
@@ -402,14 +504,11 @@
 		            <label for="files">파일첨부</label>
 		            <input type="file" id="files" name="files" multiple>
 		        </div>
-        		<div class="bottom-area">
-			        <div class="buttons">
-			            <button type="submit">결재요청</button>
-			            <button type="submit">임시저장</button>
-			            <button  onclick="applinebtn()">결재선 선택</button>
-			            <button type="button">취소</button>
-			        </div>
-    			</div>
+		        
+		        
+		            <input type="hidden" id="docStatus" name="docStatus" value="">
+		        
+        		
     		</form>
     	</div>
      </div>  
@@ -418,78 +517,79 @@
 
     <!-- 모달창 -->
     <div id="approvalModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>결재선 선택</h2>
-                <span class="close">&times;</span>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 style="font-weight: bold;">결재선 선택</h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="left-panel">
+                <ul>
+                    <li class="dept-name" data-dept="D2">인사팀</li>
+                    <li class="dept-name" data-dept="D3">개발팀</li>
+                    <li class="dept-name" data-dept="D4">영업팀</li>
+                </ul>
             </div>
-            <div class="modal-body">
-                <div class="left-panel">
-                    <ul>
-                        <li data-dept="D2">인사팀</li>
-					    <li data-dept="D3">개발팀</li>
-					    <li data-dept="D4">영업팀</li>
-                        
-                    </ul>
-                </div>
-        
-                <div class="right-panel">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>기안자</th>
-                                <th>이름</th>
-                                <th>부서</th>
-                                <th>직급</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>신청</td>
-                                <td><c:out value="${loginEmployee.empName}"/></td>
-                                <td><c:out value="${loginEmployee.deptCode.deptName}"/></td>
-                                <td><c:out value="${loginEmployee.jobCode.jobName}"/></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>검토자</th>
-                                <th>이름</th>
-                                <th>부서</th>
-                                <th>직급</th>
-                            </tr>
-                        </thead>
-                        <tbody id="referenceTableBody">
+            <div class="right-panel">
+                <table class="approval-table">
+                    <thead>
+                        <tr>
+                            <th>기안자</th>
+                            <th>이름</th>
+                            <th>부서</th>
+                            <th>직급</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>신청</td>
+                            <td><c:out value="${loginEmployee.empName}"/></td>
+                            <td><c:out value="${loginEmployee.deptCode.deptName}"/></td>
+                            <td><c:out value="${loginEmployee.jobCode.jobName}"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <table class="approval-table">
+                    <thead>
+                        <tr>
+                            <th>검토자</th>
+                            <th>이름</th>
+                            <th>부서</th>
+                            <th colspan='2'>직급</th>
+                        </tr>
+                    </thead>
+                    <tbody id="referenceTableBody">
+                    </tbody>
+                </table>
+                <br>
+                <table class="approval-table">
+                    <thead>
+                        <tr>
+                            <th>결재자</th>
+                            <th>이름</th>
+                            <th>부서</th>
+                            <th colspan='2'>직급</th>
                             
-                        </tbody>
-                    </table>
-                    <br>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>결재자</th>
-                                <th>이름</th>
-                                <th>부서</th>
-                                <th>직급</th>
-                            </tr>
-                        </thead>
-                        <tbody id="approveTableBody">
-                           
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="confirm-btn">확인</button>
-                <button class="cancel-btn">취소</button>
-                <button class="reference-btn">검토자로 추가</button>
-                <button class="approver-btn">결재자로 추가</button>
+                        </tr>
+                    </thead>
+                    <tbody id="approveTableBody">
+                    </tbody>
+                </table>
             </div>
         </div>
+	    <div class="modal-footer">
+		    <div class="left-buttons">
+		        <button class="reference-btn">검토자로 추가</button>
+		        <button class="approver-btn">결재자로 추가</button>
+		    </div>
+		    <div class="right-buttons">
+		        <button class="confirm-btn">확인</button>
+		        <button class="cancel-btn">취소</button>
+		    </div>
+		</div>
     </div>
+</div>
 
     <script>
      	let selectedEmployee = null; 
@@ -507,26 +607,20 @@
             const cancelBtn = document.querySelector(".modal-footer .cancel-btn");
             const referenceBtn = document.querySelector(".modal-footer .reference-btn");
             const approverBtn = document.querySelector(".modal-footer .approver-btn");
-            
-            
-            
          	// 엑스버튼 눌러서 닫는거
             span.onclick = function() {
                 modal.style.display = "none";
             }
-        	 // 닫기버튼 눌러서 닫기
+        	// 닫기버튼 눌러서 닫기
             cancelBtn.onclick = function() {
                 modal.style.display = "none";
             }
-
             // 모달창 밖에 클릭해도 닫히게
             window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
             }
-         	
-         	
          	// 중간결재자로 추가 버튼 클릭 시
             referenceBtn.onclick = function() {
                 if (selectedEmployee) {
@@ -542,6 +636,7 @@
                     "<td>" + selectedEmployee.name + "</td>" +
                     "<td>" + selectedEmployee.dept + "</td>" +
                     "<td>" + selectedEmployee.job + "</td>" +
+                    "<td><button onclick='removeReviewer(this)'>삭제</button></td>" + // 삭제 버튼 추가
                     "</tr>";
                 
    				 /* document.querySelector("#referenceTableBody").insertAdjacentHTML("beforeend", newRow); */
@@ -556,6 +651,11 @@
         	 // 결재자로 추가 버튼 클릭 시
        	    approverBtn.onclick = function() {
                 if (selectedEmployee) {
+                	if (selectedEmployee.job !== "과장") {
+                        alert("최종 결재자는 과장만 선택할 수 있습니다.");
+                        return;
+                    }
+                	
                 	selectedEmployee.type = "approver";
                     console.log("결재자 추가: ", selectedEmployee);
                     selectedEmployee.sequence = reviewerSequence+ 1; // 별도의 순번 지정
@@ -567,6 +667,7 @@
                     "<td>" + selectedEmployee.name + "</td>" +
                     "<td>" + selectedEmployee.dept + "</td>" +
                     "<td>" + selectedEmployee.job + "</td>" +
+                    "<td><button onclick='removeApprover(this)'>삭제</button></td>" + // 삭제 버튼 추가
                     "</tr>";
    
                      $("#approveTableBody").append(newRow); 
@@ -631,7 +732,24 @@
                 modal.style.display = "none";
             }
         }
- 
+    	// 검토자 삭제 함수
+    	function removeReviewer(button) {
+    	    const row = button.parentElement.parentElement;
+    	    const index = Array.from(row.parentElement.children).indexOf(row);
+    	    selectedEmployees.splice(index, 1);
+    	    row.remove();
+    	    console.log("검토자 삭제: ", selectedEmployees);
+    	}
+
+    	// 결재자 삭제 함수
+    	function removeApprover(button) {
+    	    const row = button.parentElement.parentElement;
+    	    selectedApprover = null;
+    	    row.remove();
+    	    console.log("결재자 삭제");
+    	}
+    	
+    	//모달창에서 부서별 직원리스트
    		$(document).ready(function() {
             $(".left-panel ul li").click(function() {
                 const deptCode = $(this).data("dept");
@@ -648,30 +766,33 @@
 	                    	deptCode: deptCode 
 	                    },
 	                    success: function(data) {
-	                    	
-	                        let list = "<ul>";
+	                    	// 직급 순서 배열
+	                        const jobOrder = ["과장","팀장", "팀원"];
+	                    	 // 직급에 따라 정렬
+	                        data.sort(function(a, b) {
+	                            return jobOrder.indexOf(a.jobCode.jobName) - jobOrder.indexOf(b.jobCode.jobName);
+	                        });
+	                        let list = "<ul class='tree'>";
 	                       
 	                        data.forEach(function(employee) {
-	/*                         	console.log("직원 객체:", employee);
-	 */                        	console.log("직원 이름:", employee.empName);
-	                        	 /* list += "<li>-&nbsp; "+employee.empName+"</li>"; */ 
 	 								list += "<li data-empid='" + employee.empNo + "' data-empname='" + employee.empName + 
 	 								"' data-deptname='" + employee.deptCode.deptName + 
-	 								"' data-jobname='" + employee.jobCode.jobName + "'>-&nbsp; " + employee.empName +"("+employee.jobCode.jobName+")</li>";
+	 								"' data-jobname='" + employee.jobCode.jobName + "'><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='bi bi-person-fill' viewBox='0 0 16 16'>" +
+	 									  "<path d='M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6'/>"+
+	 										 "</svg>&nbsp; " + employee.empName +" ["+employee.jobCode.jobName+"]</li>";
 	                        });
 	                        list += "</ul>";
 	                        console.log("나온 HTML:", list);
 	                   
 	                        $this.after(list);
-	                        
-	                        
-	                        //$this.next("ul").remove(); 
-	                        // 생성된 ul을 토글 방식으로 표시
-	                         //$this.next("ul").toggle();
-	                        //
+
 	
 	                        // 클릭 시 토글
 	                        $this.next("ul").find("li").click(function() {
+	                        	if ($(this).hasClass("selected")) {
+	                                $(this).removeClass("selected");
+	                                selectedEmployee = null;
+	                            } else {
 	                            selectedEmployee = {
 	                            	id: $(this).data("empid"),	
 	                            		
@@ -681,6 +802,7 @@
 	                            };
 	                            console.log("selectedEmploye: ",selectedEmployee)
 	                            $(this).addClass("selected").siblings().removeClass("selected");
+	                            }
 	                        });
 	                        
 	                    },
@@ -693,6 +815,17 @@
          	
    		})
    		
+   		
+   		
+   		
+   		
+   		//현재날짜 이전은 선택못하게 하기 위해
+	   	$(document).ready(function(){
+	   		const today = "<%=today%>";
+	   		$("#leave-start").attr("min",today);
+	   		$("#leave-end").attr("min",today);
+	   	})
+	   	
         const leaveStart = document.getElementById('leave-start');
         const leaveEnd = document.getElementById('leave-end');
         const leaveDays = document.getElementById('leave-days');
@@ -715,7 +848,7 @@
         
     	
     	
-    	$(document).ready(function() {
+/*     	$(document).ready(function() {
     	    // 휴가 신청서 제출 시 AJAX로 처리
     	    $('#vacationForm').submit(function(event) {
     	        event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
@@ -737,7 +870,35 @@
     	        });
     	    });
     	});
-        
+         */
+    	
+    	
+    	
+    	
+    	function submitForm(status) {
+    	    document.getElementById('docStatus').value = status;
+
+    	    var formData = new FormData(document.getElementById('vacationForm'));
+    	    $.ajax({
+    	        url: '${path}/approve/ajaxWriteVacation',
+    	        type: 'POST',
+    	        data: formData,
+    	        processData: false,
+    	        contentType: false,
+    	        success: function(response) {
+    	        	if (status === 4) {
+                        alert("문서가 임시 저장되었습니다.");
+                    } else {
+                    	$('.content').html(response);
+                        alert("기안문서가 제출되었습니다");
+                        
+                    }
+    	        },
+    	        error: function(error) {
+    	            alert('휴가 신청서 제출 중 오류가 발생했습니다.');
+    	        }
+    	    });
+    	}
     </script>
 </body>
 </html>

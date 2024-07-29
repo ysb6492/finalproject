@@ -14,8 +14,8 @@
         }
         .container {
             width: 100%;
-            margin: auto;
-            padding: 40px;
+            margin:40px 0 0 0px;
+            height:1000px;
         }
         table {
             width: 100%;
@@ -39,10 +39,11 @@
             border: none;
             font-size: 14px;
             box-sizing: border-box;
+            outline: none;
         }
         .form-group textarea {
             resize: none;
-            height: 150px; /* 초기 높이 설정 */
+            height: 100%; /* 초기 높이 설정 */
         }
         .file-upload {
             border: 2px dashed #ddd;
@@ -101,35 +102,31 @@
         
     </style>
 </head>
+
 <body>
-    <div class="container">
+	<h3>자유게시판</h3>
+    <div class="container" style="">
         <form action="${path}/board/insertboard" method="post" enctype="multipart/form-data">
-            <table>
-                <tr>
-                    <th><label for="title">제목</label></th>
+            <table style="height:800px;">
+                <tr style="height:30px;">
+                    <th><label for="title" >제목</label></th>
                     <td class="form-group">
                         <input type="text" id="title" name="boardTitle" placeholder="제목을 입력하세요">
                     </td>
                 </tr>
-                <tr>
+                <tr style="height:30px;">
                     <th><label for="author">작성자</label></th>
                     <td class="form-group">
                         <input type="text" id="author" name="boardWriter" value="${loginEmployee.username}" readonly>
                     </td>
                 </tr>
-                <tr>
+                <tr style="height:30px;">
                     <th><label for="password">비밀번호</label></th>
                     <td class="form-group">
                         <input type="password" id="password" name="boardPass">
                     </td>
                 </tr>
-                <tr>
-                    <th><label for="content">내용</label></th>
-                    <td class="form-group">
-                        <textarea id="content" name="boardContent" placeholder="내용을 입력하세요"></textarea>
-                    </td>
-                </tr>
-                <tr>
+                <tr style="height:30px;">
                     <th><label for="file-upload-input">파일 첨부</label></th>
                     <td class="form-group">
                         <div class="file-upload">
@@ -139,6 +136,13 @@
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <th><label for="content">내용</label></th>
+                    <td class="form-group">
+                        <textarea id="content" name="boardContent" placeholder="내용을 입력하세요"></textarea>
+                    </td>
+                </tr>
+                
             </table>
             <div class="buttons">
                 <button type="submit" class="submit">등록</button>
@@ -146,7 +150,9 @@
             </div>
         </form>
     </div>
+   	
     <script>
+        
         document.getElementById('file-upload-input').addEventListener('change', function() {
             var fileNames = Array.from(this.files).map(file => file.name).join(', ');
             document.getElementById('file-upload-text').textContent = fileNames || '선택된 파일이 없습니다.';

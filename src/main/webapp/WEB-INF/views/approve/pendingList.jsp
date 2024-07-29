@@ -4,26 +4,23 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="loginEmployee" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
-<p>로그인한 사번: ${loginEmployee.empNo}</p>
 
 <style>
         /* 스타일 정의 */
         section {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
         }
         .container {
-            width: 90%;
-            margin: 0 auto;
-            background: #fff;
+            width: 100%; /* 가로 길이를 80%로 설정 */
+            max-width: 1500px;
+            margin:0px;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
         }
-        h1 {
+        h2 {
             text-align: left;
+            font-weight: 400;
         }
         table {
             width: 100%;
@@ -88,12 +85,19 @@
 		    border-radius: 3px;
 		    
 		}
+		.no-underline {
+	    text-decoration: none; /* 밑줄 제거 */
+	    color: black; /* 글자 색상을 검정색으로 */
+	}
+	.no-underline:hover {
+	    text-decoration: underline; /* 선택 사항: 마우스 오버 시 밑줄 표시 */
+	}
     </style>
 </head>
 <body>
     <section>
         <div class="container">
-            <h1>결재 문서함</h1>
+            <h2>결재 문서함</h2>
             <div class="status-search">
                 <div class="tabs">
                 <!-- 0대기중, 1진행중, 2승인됨, 3반려됨 -->
@@ -130,24 +134,28 @@
                             <td>${doc.startDate}</td>
                             <td>${doc.docCategory}</td>
                             <td>
-				                <a href="#" class="document-link" data-doc-no="${doc.docNo}">
+				                <a href="#" class="document-link no-underline"  data-doc-no="${doc.docNo}">
 				                    ${doc.docTitle}
 				                </a>
 				            </td>
                             
                             <td>${doc.docNo}</td>
-					        <c:if test="${doc.docStatus == 0}">
-					            <td>대기중</td>
-					        </c:if>
-					        <c:if test="${doc.docStatus == 1}">
-					            <td>진행중</td>
-					        </c:if>
-					        <c:if test="${doc.docStatus == 2}">
-					            <td>완료됨</td>
-					        </c:if>
-					        <c:if test="${doc.docStatus == 3}">
-					            <td>거부됨</td>
-					        </c:if>
+					        <td>
+                                <c:choose>
+                                    <c:when test="${doc.docStatus == 0}">
+                                       <span style="color: black;">대기중</span>
+                                    </c:when>
+                                    <c:when test="${doc.docStatus == 1}">
+                                       <span style="color: orange;">진행중</span>
+                                    </c:when>
+                                    <c:when test="${doc.docStatus == 2}">
+                                    	<span style="color: green;">승인됨</span>
+                                    </c:when>
+                                    <c:when test="${doc.docStatus == 3}">
+                                    	 <span style="color: red;">반려됨</span>
+                                    </c:when>
+                                </c:choose>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -261,15 +269,15 @@
                      '<td>' + doc.docNo + '</td>';
                  
                  if (doc.docStatus == 0) {
-                     row += '<td>대기중</td>';
+                     row += "<td><span style='color: black;'>대기중</span></td>";
                  } else if (doc.docStatus == 1) {
-                     row += '<td>진행중</td>';
+                     row += "<td><span style='color: orange;'>진행중</span></td>";
                  } else if (doc.docStatus == 2) {
-                     row += '<td>완료됨</td>';
+                     row += "<td><span style='color: green;'>승인됨</span></td>";
                  } else if (doc.docStatus == 3) {
-                     row += '<td>거부됨</td>';
+                     row += "<td><span style='color: red;'>반려됨</span></td>";
                  }
-                 
+
                  row += '</tr>';
                     documentList.append(row);
                 });
@@ -299,15 +307,15 @@
                      '</td>' +
                      '<td>' + doc.docNo + '</td>';
                  
-                 if (doc.docStatus == 0) {
-                     row += '<td>대기중</td>';
-                 } else if (doc.docStatus == 1) {
-                     row += '<td>승인됨</td>';
-                 } else if (doc.docStatus == 2) {
-                     row += '<td>완료됨</td>';
-                 } else if (doc.docStatus == 3) {
-                     row += '<td>거부됨</td>';
-                 }
+                     if (doc.docStatus == 0) {
+                         row += "<td><span style='color: black;'>대기중</span></td>";
+                     } else if (doc.docStatus == 1) {
+                         row += "<td><span style='color: orange;'>진행중</span></td>";
+                     } else if (doc.docStatus == 2) {
+                         row += "<td><span style='color: green;'>승인됨</span></td>";
+                     } else if (doc.docStatus == 3) {
+                         row += "<td><span style='color: red;'>반려됨</span></td>";
+                     }
                  
                  row += '</tr>';
                     documentList.append(row);
@@ -338,15 +346,15 @@
                      '</td>' +
                      '<td>' + doc.docNo + '</td>';
                  
-                 if (doc.docStatus == 0) {
-                     row += '<td>대기중</td>';
-                 } else if (doc.docStatus == 1) {
-                     row += '<td>승인됨</td>';
-                 } else if (doc.docStatus == 2) {
-                     row += '<td>완료됨</td>';
-                 } else if (doc.docStatus == 3) {
-                     row += '<td>거부됨</td>';
-                 }
+                     if (doc.docStatus == 0) {
+                         row += "<td><span style='color: black;'>대기중</span></td>";
+                     } else if (doc.docStatus == 1) {
+                         row += "<td><span style='color: orange;'>진행중</span></td>";
+                     } else if (doc.docStatus == 2) {
+                         row += "<td><span style='color: green;'>승인됨</span></td>";
+                     } else if (doc.docStatus == 3) {
+                         row += "<td><span style='color: red;'>반려됨</span></td>";
+                     }
                  
                  row += '</tr>';
                     documentList.append(row);

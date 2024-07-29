@@ -38,50 +38,92 @@ public class BoardServiceImpl implements BoardService {
         return boardDao.selectBoardCount();
     }
 
-    @Override
-    public Board selectBoardById(int boardNo) {
-        return boardDao.selectBoardById(boardNo);
-    }
+  
     
     @Transactional
     @Override
     public int insertBoard(Board board) {
         int result = boardDao.insertBoard(board);
         System.out.println("삽입된 게시글 번호: " + board.getBoardNo());
-
-        if (result > 0 && board.getFiles() != null) {
+        if (board.getFiles() != null) {
             for (Attachment attachment : board.getFiles()) {
                 attachment.setBoardNo(board.getBoardNo());
-               // boardDao.insertAttachment(attachment);
-            	int attachResult = boardDao.insertAttachment(attachment);
-                System.out.println("첨부 파일 삽입 결과: " + attachResult + ", 첨부 파일: " + attachment);
+                boardDao.insertAttachment(attachment);
             }
         }
         return result;
+//        if (result > 0 && board.getFiles() != null) {
+//            for (Attachment attachment : board.getFiles()) {
+//                attachment.setBoardNo(board.getBoardNo());
+//               // boardDao.insertAttachment(attachment);
+//            	int attachResult = boardDao.insertAttachment(attachment);
+//                System.out.println("첨부 파일 삽입 결과: " + attachResult + ", 첨부 파일: " + attachment);
+//            }
+//        }
+        
     }
+    
+    @Override
+    public Board selectBoardByNo(int boardNo) {
+    	Board board = boardDao.selectBoardByNo(boardNo);
+    	if (board != null) {
+            List<Attachment> attachments = boardDao.selectAttachmentsByBoardNo(boardNo);
+            System.out.println("Attachments from DB: " + attachments); // 디버그 출력 추가
+            board.setFiles(attachments);
+        }
+        return board;
+        //return boardDao.selectBoardByNo(boardNo);
+    }
+    
+    @Override
+    public List<Attachment> selectAttachmentsByBoardNo(int boardNo) {
+        return boardDao.selectAttachmentsByBoardNo(boardNo);
+    }
+    @Override
+    public String getWriterProfileReName(String empId) {
+        return boardDao.getWriterProfileReName(empId);
+    }
+    @Override
+    public int deleteBoard(int boardNo) {
+    	return boardDao.deleteBoard(boardNo);
+    }
+    @Override
+    public boolean addComment(BoardComment comment) {
+        return boardDao.insertComment(comment) > 0;
+    }
+    @Override
+    public List<BoardComment> selectCommentsByBoardNo(int boardNo) {
+        return boardDao.selectCommentsByBoardNo(boardNo);
+
+    }
+    @Override
+    public boolean deleteComment(int commentNo) {
+        return boardDao.deleteComment(commentNo) > 0;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 
     @Override
     public int updateBoard(Board board) {
         return boardDao.updateBoard(board);
     }
 
-    @Override
-    public int deleteBoard(int boardNo) {
-        return boardDao.deleteBoard(boardNo);
-    }
 
-    @Override
-    public boolean addComment(BoardComment comment) {
-        return boardDao.insertComment(comment) > 0;
-    }
-
-    @Override
-    public boolean deleteComment(int commentNo) {
-        return boardDao.deleteComment(commentNo) > 0;
-    }
     
-    @Override
-    public int insertAttachment(Attachment attachment) {
-        return boardDao.insertAttachment(attachment);
-    }
+
+
+
+    
+//    @Override
+//    public int insertAttachment(Attachment attachment) {
+//        return boardDao.insertAttachment(attachment);
+//    }
+
+	
 }

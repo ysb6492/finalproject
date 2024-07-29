@@ -5,6 +5,13 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="loginEmployee" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 <style>
+	.no-underline {
+	    text-decoration: none; /* 밑줄 제거 */
+	    color: black; /* 글자 색상을 검정색으로 */
+	}
+	.no-underline:hover {
+	    text-decoration: underline; /* 선택 사항: 마우스 오버 시 밑줄 표시 */
+	}
     .filter-container {
         display: flex;
         justify-content: flex-end; /* 오른쪽 끝으로 배치 */
@@ -25,19 +32,25 @@
         height: 30px; /* 높이 조절 */
         font-size: 14px; /* 글자 크기 조절 */
     }
+ 
+    
 </style>
 
 <body>
- <div class="filter-container">
-	<div class="filter" style="display:flex;">
-       <select id="filterType" class="form-control">
+<h3 style="font-weight:700;" >사원 조회 페이지</h3>
+ <div class="filter-container" style="justify-content:space-between; margin-top:20px;">
+ 	<div class="" style="">
+        <button type="button" class="btn btn-outline-danger" style="width:80px; height:35.67px"  onclick="deleteEmployees()">삭제</button>
+    </div>
+	<div class="filter" style="display:flex; margin-bottom:10px;">
+       <select id="filterType" class="form-control" style="height:100%;">
            <option value="">필터 선택</option>
            <option value="dept">부서명</option>
            <option value="job">직책명</option>
            <option value="name">이름</option>
        </select>
-       <input type="text" id="filterValue" class="form-control" placeholder="검색어 입력">
-       <button type="button" class="btn btn-outline-primary" onclick="applyFilter()">검색</button>
+       <input type="text" id="filterValue" class="form-control" placeholder="검색어 입력" style="height:100%;">
+       <button type="button" class="btn btn-outline-primary" style="height:100%;" onclick="applyFilter()">검색</button>
     </div>
     </div>
 	<table id="tbl-board" class="table table-striped table-hover">
@@ -62,7 +75,7 @@
             			<td scope="col">${e.deptCode.deptName}</td>
 						<td scope="col">${e.jobCode.jobName}</td>
 						<td scope="col">
-							<a href="#" onclick="loadEmpDetail('${e.empNo}')">
+							<a href="#"  class="no-underline" onclick="loadEmpDetail('${e.empNo}')">
 								<c:out value="${e.empName}"/>
 							</a>
 						</td>
@@ -81,9 +94,7 @@
 		    <div id="pageBar" style="text-align: center;">
 		        ${pageBar}
 		    </div>
-		    <div style="position: absolute; right: 0; top: 0;">
-		        <button type="button" class="btn btn-outline-danger" onclick="deleteEmployees()">삭제</button>&nbsp;
-		    </div>
+		   
 		</div>
 </body>
 </html>

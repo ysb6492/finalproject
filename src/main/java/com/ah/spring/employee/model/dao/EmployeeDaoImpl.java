@@ -44,6 +44,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public int enrollEmployee(SqlSession session, Employee e) {
 		return session.insert("employee.enrollEmployee",e);
 	}
+	
+	
+	
+	
+	
+	
 	@Override
     public void deleteEmployees(SqlSession session, List<Integer> empNos) {
         session.delete("employee.deleteEmployees", empNos);  

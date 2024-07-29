@@ -5,7 +5,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="loginEmployee" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 <style>
-        }
+        
         .table-container {
             margin-top: 20px;
         }
@@ -105,7 +105,10 @@
                      <tr>
                          <td class="checkbox-cell"><input type="checkbox" name="boardNo" value="${board.boardNo}"></td>
                          <td>${board.boardNo}</td>
-                         <td><a href="${path}/board/detail?boardNo=${board.boardNo}">${board.boardTitle}</a></td>
+                         <td>
+                         
+                         	<a href="#" onclick="loadBoardView(${board.boardNo})">${board.boardTitle}</a>
+                         </td>
                          <td>${board.boardWriter}</td>
                          <td><fmt:formatDate value="${board.createdAt}" pattern="yyyy-MM-dd"/></td>
                          <td>${board.boardHits}</td>
@@ -128,5 +131,21 @@
              <button class="btn btn-secondary" type="submit">검색</button>
          </form>
       </div>
+      <script>
+      function loadBoardView(boardNo) {
+          $.ajax({
+              url: '${path}/board/boardview',
+              method: 'GET',
+              data: { boardNo: boardNo },
+              success: function(response) {
+                  $('.content').html(response);
+              },
+              error: function(error) {
+                  alert('문서를 불러오는 중 오류가 발생했습니다.');
+              }
+          });
+      }
+      
+      </script>
 </body>
 </html>

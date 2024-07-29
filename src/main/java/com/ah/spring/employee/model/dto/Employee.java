@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ah.spring.common.MyAuthority;
 
@@ -51,6 +52,9 @@ public class Employee implements UserDetails {
 	private String empRole;
 	private Department deptCode;
 	private Job jobCode;
+	
+    private MultipartFile profilePicture; // 추가된 필드
+
 	
 
 	@Override

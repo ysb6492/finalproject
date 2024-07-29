@@ -144,13 +144,147 @@ public class BoardController {
         model.addAttribute("loc", loc);
         return "common/msg";
     }
+    
+    @GetMapping("/boardview")
+    public String getBoardView(@RequestParam("boardNo") int boardNo, Model model,HttpSession session) {
+        Employee loginEmployee = (Employee) session.getAttribute("loginEmployee");
 
-    @GetMapping("/edit/{boardNo}")
-    public String editForm(@PathVariable int boardNo, Model model) {
-        Board board = service.selectBoardById(boardNo);
+        // 서비스나 DAO를 통해 게시글 정보를 가져오는 로직
+        Board board = service.selectBoardByNo(boardNo);
+        if (board != null) {
+        	List<Attachment> attachments = service.selectAttachmentsByBoardNo(boardNo);
+            board.setFiles(attachments);
+            
+            // 댓글 목록을 가져오는 로직 추가
+            List<BoardComment> comments = service.selectCommentsByBoardNo(boardNo);
+//            for (BoardComment comment : comments) {
+//                if (loginEmployee != null && loginEmployee.getEmpId().equals(comment.getCommentWriter())) {
+//                    comment.setDeletable(true);  // 본인이 작성한 댓글임을 표시
+//                } else {
+//                    comment.setDeletable(false);  // 본인이 작성한 댓글이 아님을 표시
+//                }
+//            }
+            board.setComments(comments);
+            // 작성자의 프로필 사진 경로를 가져오는 로직
+            String writerProfileReName = service.getWriterProfileReName(board.getBoardWriter());
+            model.addAttribute("writerProfileReName", writerProfileReName);
+        }
         model.addAttribute("board", board);
-        return "board/edit";
+        
+        
+        return "board/boardview"; // boardview.jsp로 이동
     }
+    
+    @PostMapping("/delete")
+    @ResponseBody
+    public Map<String, Object> deleteBoard(@RequestBody Map<String, Integer> request) {
+        int boardNo = request.get("boardNo");
+        String msg;
+        boolean success;
+        try {
+            int result = service.deleteBoard(boardNo);
+            if (result > 0) {
+                msg = "게시글 삭제 성공!";
+                success = true;
+            } else {
+                msg = "게시글 삭제 실패, 다시 시도하세요!";
+                success = false;
+            }
+        } catch (Exception e) {
+            msg = "서버 오류로 인해 게시글 삭제에 실패했습니다.";
+            success = false;
+            e.printStackTrace();  // 서버 로그에 예외를 기록
+        }
+
+        return Map.of("success", success, "msg", msg);
+    }
+    
+    
+    @PostMapping("/addComment")
+    @ResponseBody
+    public Map<String, Object> addComment(HttpSession session, @RequestBody BoardComment comment) {
+    	Employee loginEmployee = (Employee) session.getAttribute("loginEmployee");
+    	if (loginEmployee == null) {
+            return Map.of("success", false, "msg", "로그인이 필요합니다.");
+        }
+        comment.setCommentWriter(loginEmployee.getEmpId());
+
+//        if (comment.getParentId() == 0) {
+//            comment.setCommentLevel(0); // 최상위 댓글의 commentLevel은 0
+//        } else {
+//            comment.setCommentLevel(1); // 대댓글의 commentLevel은 1
+//        }
+        
+        
+        System.out.println("comment: " + comment);
+
+    	//댓글 저장시키고
+    	boolean success = service.addComment(comment);
+        // 작성자의 프로필 이미지 경로 가져오기
+        String writerProfileReName = service.getWriterProfileReName(comment.getCommentWriter());
+        // 프로필 이미지가 없는 경우 기본 이미지로 설정
+        if (writerProfileReName == null || writerProfileReName.isEmpty()) {
+            writerProfileReName = "basicprofile.png";
+        }
+        // 현재 시간 생성
+        String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
+
+        
+     // Null 체크
+        System.out.println("commentWriter: " + comment.getCommentWriter());
+        System.out.println("writerProfileReName: " + writerProfileReName);
+        System.out.println("commentContent: " + comment.getCommentContent());
+        System.out.println("commentNo: " + comment.getCommentNo()); // commentNo 출력 확인
+
+        return Map.of(
+            "success", success,
+            "commentWriter", comment.getCommentWriter(),
+            "writerProfileReName", writerProfileReName,
+            "createdAt", formattedDate,
+            "commentContent", comment.getCommentContent(),
+            "commentNo", comment.getCommentNo(),
+            "commentLevel", comment.getCommentLevel()
+        );
+    }
+    @PostMapping("/deleteComment")
+    @ResponseBody
+    public Map<String, Object> deleteComment(@RequestBody Map<String, Integer> request) {
+    	Integer commentNo = request.get("commentNo");
+        if (commentNo == null) {
+            return Map.of("success", false, "msg", "댓글 번호가 전달되지 않았습니다.");
+        }
+        System.out.println("Deleting comment with commentNo: " + commentNo); // 디버깅 메시지 추가
+
+//        boolean success = service.deleteComment(commentNo);
+//        if (success) {
+//            return Map.of("success", true, "msg", "댓글이 삭제되었습니다.");
+//        } else {
+//            return Map.of("success", false, "msg", "댓글 삭제에 실패했습니다.");
+//        }
+        
+        
+        boolean success = service.deleteComment(commentNo);
+        return Map.of("success", success);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /////////////////////////////
+    
 
     @PostMapping("/edit")
     public String editBoard(
@@ -220,41 +354,8 @@ public class BoardController {
         return "common/msg";
     }
 
-    @PostMapping("/delete/{boardNo}")
-    public String deleteBoard(@PathVariable int boardNo, Model model) {
-        int result = 0;
-        String msg, loc;
-        try {
-            result = service.deleteBoard(boardNo);
-            msg = "게시글 삭제 성공!";
-            loc = "/board/boardlist";
-        } catch (BadAuthenticationException e) {
-            msg = "게시글 삭제 실패, 다시 시도하세요!";
-            loc = "board/boardlist";
-        }
+    
 
-        model.addAttribute("msg", msg);
-        model.addAttribute("loc", loc);
-        return "common/msg";
-    }
 
-    @PostMapping("/addComment")
-    @ResponseBody
-    public Map<String, Object> addComment(HttpSession session, @RequestBody BoardComment comment) {
-        Employee loginEmployee = (Employee) session.getAttribute("loginEmployee");
-        if (loginEmployee == null) {
-            return Map.of("success", false, "message", "로그인이 필요합니다.");
-        }
-
-        comment.setCommentWriter(loginEmployee.getEmpId());
-        boolean success = service.addComment(comment);
-        return Map.of("success", success);
-    }
-
-    @PostMapping("/deleteComment/{commentNo}")
-    @ResponseBody
-    public Map<String, Object> deleteComment(@PathVariable int commentNo) {
-        boolean success = service.deleteComment(commentNo);
-        return Map.of("success", success);
-    }
+    
 }

@@ -18,6 +18,7 @@ body {
     width: 100%;
     
 }
+
 .employee-container {
      display: flex;
      min-height: 100vh;
@@ -121,13 +122,13 @@ body {
 }
 
 .menu a:hover {
-    text-decoration: underline;
+    text-decoration:none;
 }
 
 .content {
-    flex: 1;
+    
     padding: 20px;
-	width: calc(100% - 250px);
+	width: 70%;
 }
 
 
@@ -142,28 +143,27 @@ body {
 <body>
     <div class="employee-container">
         <aside class="sidebar">
-            <h2>인사관리</h2>
-<!--             <button class="new-doc-btn" onclick="openModal()">새 결재 진행</button>
- -->           <ul class="menu">
-    <li>
-        <a href="#" class="submenu-toggle">근태관리</a>
-        <ul style="text-align: center;">
-            <li><a href="#" onclick="loadMyPage()">나의 기본정보</a></li>
-        </ul>
-    </li>
-    <li>
-        <a href="#" class="submenu-toggle">인사관리</a>
-        <ul style="text-align: center;">
-            <li><a href="#" onclick="loadEmpSearchPage()">사원 조회</a></li>
-            <li><a href="#" onclick="loadEmpEnrollPage()">사원 등록</a></li>
-        </ul>
-    </li>
-    <li>
-        <a href="#" onclick="loadDeptPage()">부서관리</a>
-    </li>
-</ul>
+            <h2 >인사관리</h2>
+           	<ul class="menu">
+			    <li>
+			        <a href="" class="submenu-toggle">근태관리</a>
+			        <ul style="text-align: center;">
+			            <li><a href="#" onclick="loadMyPage()">나의 기본정보</a></li>
+			        </ul>
+			    </li>
+			    <li>
+			        <a href="#" class="submenu-toggle">인사관리</a>
+			        <ul style="text-align: center;">
+			            <li><a href="#" onclick="loadEmpSearchPage()">사원 조회</a></li>
+			            <li><a href="#" onclick="loadEmpEnrollPage()">사원 등록</a></li>
+			        </ul>
+			    </li>
+			    <li>
+			        <a href="#" onclick="loadDeptPage()">부서관리</a>
+			    </li>
+			</ul>
         </aside>
-        <div class="content">
+        <div class="content" >
 	        <div class="container-fluid">
 	            <h3>근태 및 기본정보</h3>
         	</div>
@@ -195,11 +195,16 @@ $(document).ready(function() {
             success: function(response) {
                 $('.content').html(response);
             },
-            error: function(error) {
-                alert('문서를 불러오는 중 오류가 발생했습니다.');
+            error: function(xhr, status, error) {
+            	if (xhr.status === 403) {
+                    alert('접근 권한이 없습니다.');
+                } else {
+                    alert('문서를 불러오는 중 오류가 발생했습니다.');
+                }
             }
         });
     }
+    //사원등록 페이지
     function loadEmpEnrollPage(){
     	$.ajax({
     		url: '${path}/employee/empenroll',
@@ -208,8 +213,12 @@ $(document).ready(function() {
     			$('.content').html(response);
     			
     		},
-    		error: function(error) {
-                alert('문서를 불러오는 중 오류가 발생했습니다.');
+    		error: function(xhr, status, error) {
+    			if (xhr.status === 403) {
+                    alert('접근 권한이 없습니다.');
+                } else {
+                    alert('문서를 불러오는 중 오류가 발생했습니다.');
+                }
             }
     	});
     }
