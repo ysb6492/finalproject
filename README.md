@@ -58,5 +58,4 @@
 
 ## 로그인화면 및 메인화면
 <img width="671" alt="로그인화면" src="https://github.com/user-attachments/assets/60eb6833-e896-4867-84be-39a60a91a7e2">
-<img width="1256" alt="메인페이지" src="https://github.com/user-attachments/assets/42d720fa-8cdb-402d-8221-8ecb8aa24de4">
 
