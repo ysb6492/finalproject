@@ -56,6 +56,7 @@
 ## 로그인 및 메인화면
 <img width="300" alt="로그인화면" src="https://github.com/user-attachments/assets/0a14453b-cc11-417e-8584-cdbaba3443ee">
 <img width="400" alt="메인페이지" src="https://github.com/user-attachments/assets/6719c14e-fd19-413f-a150-be7a0f17c10e"><br>
+1. 구현기능 설명
 - 기본적인 로그인, 로그아웃
 - Spring Security로 계정 권한 부여
 - BCrypt 해시 함수로 비밀번호 암호화
@@ -65,6 +66,7 @@
 <img width="350" alt="인사관리-사원조회" src="https://github.com/user-attachments/assets/f6043cc0-b7a3-450e-9fb5-38583ca928a0">
 <img width="350" alt="인사관리_사원등록" src="https://github.com/user-attachments/assets/18a045fd-3143-46cc-a81d-06e4065ccfb9">
 <img width="95" alt="근태기록" src="https://github.com/user-attachments/assets/901d8043-6264-4c71-995f-ec8491a7489e"><br>
+1. 구현기능 설명
 - 조건검색을 통한 직원 검색 및 페이징 처리
 - 조회목록에서 다수 선택 후 삭제기능
 - 인사부의 특정직원 클릭시 상세페이지로 이동 후 수정(부서 수정 )처리 기능
