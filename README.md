@@ -18,6 +18,7 @@
 
 ### Back end/Server
 - JAVA
+  <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
 - Spring Framework, Spring Boot
 - Jsp
 - Apache Tomcat 9.0
@@ -25,7 +26,8 @@
 - Mybatis
 
 ### Front end
-- Javascript<img src="https://img.shields.io/badge/Javascript-#F7DF1E?style=for-the-badge&logo=Javascript&logoColor=white">
+- Javascript
+  <img src="https://img.shields.io/badge/javascript-#F7DF1E?style=for-the-badge&logo=javascript&logoColor=white">
 - JQuery
 - HTML5, CSS3
 - Bootstrap
