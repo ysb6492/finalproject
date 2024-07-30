@@ -67,18 +67,23 @@
 <img width="350" alt="인사관리_사원등록" src="https://github.com/user-attachments/assets/18a045fd-3143-46cc-a81d-06e4065ccfb9">
 <img width="95" alt="근태기록" src="https://github.com/user-attachments/assets/901d8043-6264-4c71-995f-ec8491a7489e"><br>
 1. 구현기능 설명
-- 조건검색을 통한 직원 검색 및 페이징 처리
-- 조회목록에서 다수 선택 후 삭제기능
-- 인사부의 특정직원 클릭시 상세페이지로 이동 후 수정(부서 수정 )처리 기능
-- 프로필사진 및 직원의 개인정보 등록/ 등록시 아이디 중복체크 및 비밀번호 정규식을 통한 체크 
+   - 조건검색을 통한 직원 검색 및 페이징 처리
+   - 조회목록에서 다수 선택 후 삭제기능
+   - 인사부의 특정직원 클릭시 상세페이지로 이동 후 수정(부서 수정 )처리 기능
+   - 프로필사진 및 직원의 개인정보 등록/ 등록시 아이디 중복체크 및 비밀번호 정규식을 통한 체크 
 
 ## 전자결재 화면(전자결재 메인, 문서함, 작성 등)
 <img width="250" alt="전자결재_메인화면" src="https://github.com/user-attachments/assets/a81866fd-93fb-4fb0-adfb-84ee5e1ff908"><br>
 <img width="300" alt="결재문서함" src="https://github.com/user-attachments/assets/b78b6fba-ec11-4796-9640-822c216702c4">
 <img width="250" alt="기안문서함" src="https://github.com/user-attachments/assets/337934fe-3462-4f0a-b8b5-343a7f3484e1"><br>
 <img width="250" alt="지출결의서" src="https://github.com/user-attachments/assets/e7c55a4b-dbe1-4791-90cf-aef62b80ee67">
-
+1. 구현기능 설명
+   -
 ## 게시판 화면(게시판 글 작성, 댓글, 대댓글, 조회 수)
 <img width="818" alt="게시판" src="https://github.com/user-attachments/assets/6d0c219f-789c-4a6f-b476-69258deb1292">
 <img width="400" alt="게시글 상세보기_댓글" src="https://github.com/user-attachments/assets/20424746-3232-4845-9ee2-7ed8135942b6">
-
+1. 구현기능 설명
+- 자유게시판 글 작성 및 검색에 따른 페이징 처리(작성,삭)
+- 글 작성 시 첨부파일 기능
+- 게시판 상세보기 및 조회수 증가
+- 댓글 및 대댓글 기능(자신의 댓글만 삭제가능)
