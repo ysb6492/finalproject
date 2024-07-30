@@ -74,6 +74,10 @@ public class BoardServiceImpl implements BoardService {
         return board;
         //return boardDao.selectBoardByNo(boardNo);
     }
+    @Override
+    public void incrementBoardHits(int boardNo) {
+        boardDao.updateBoardHits(boardNo);
+    }
     
     @Override
     public List<Attachment> selectAttachmentsByBoardNo(int boardNo) {

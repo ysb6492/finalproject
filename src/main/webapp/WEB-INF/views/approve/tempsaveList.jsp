@@ -126,8 +126,6 @@
 				                    ${temp.docTitle}
 				                </a>
 				            </td>
-                            
-					       
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -135,7 +133,7 @@
             <button type="button" class="btn btn-outline-danger" style="width:80px; height:35.67px"  onclick="deleteDocuments()">삭제</button>
             
             <!-- 페이지바 영역 추가 -->
-            <div class="pagination">
+            <div class="pagination" style="justify-content:center;">
                 ${pageBar}
             </div>
         </div>

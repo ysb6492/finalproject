@@ -167,6 +167,7 @@ public class ApproveController {
         int empNo = loginEmployee.getEmpNo();
     
         List<AppDocument> tempsaveList = apprService.selectTempSaveList(empNo, cPage, numPerpage);
+        System.out.println("controller: "+tempsaveList);
         int totalData = apprService.selectTempSaveCount(empNo);
         String pageBar = pageFactory.getPage(cPage, numPerpage, totalData, "/approve/tempsaveList", null, null);
 

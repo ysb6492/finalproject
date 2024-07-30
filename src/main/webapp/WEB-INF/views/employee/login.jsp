@@ -123,7 +123,7 @@
             <div class="logo-div">
                 <!-- <img src="" alt="Company Logo"> -->
             </div>
-            <h4>회사명</h4>
+            <h4>AHome</h4>
             <form action="${path}/loginproc" method="post">
                 <div class="row mb-3">
                   <label for="inputEmpNo" class="col-form-label">아이디</label>

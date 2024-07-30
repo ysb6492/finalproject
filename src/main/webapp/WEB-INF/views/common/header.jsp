@@ -142,7 +142,7 @@ span {
         <div class="header">
             <div style="width: 10%;">
                 <div class="logo">
-				    <a href="${path}/main"><span>FinalProject</span></a>
+				    <a href="${path}/main"><span>AHomes</span></a>
 				</div>
             </div>
             <div class="menu" style="width: 65%;">

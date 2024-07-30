@@ -13,6 +13,8 @@ public interface BoardDao {
     int selectBoardCount();
     int insertBoard(Board board);
 	Board selectBoardByNo(int boardNo);
+	int  updateBoardHits(int boardNo);
+	
 	List<Attachment> selectAttachmentsByBoardNo(int boardNo);
 	List<BoardComment> selectCommentsByBoardNo(int boardNo);
 	String getWriterProfileReName(String writerId);
@@ -30,6 +32,7 @@ public interface BoardDao {
     
     //사진 첨부
     int insertAttachment(Attachment attachment);
+
 
 
 

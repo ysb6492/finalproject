@@ -64,8 +64,8 @@ public class BoardController {
 
         List<Board> boards = service.selectBoardList(param);
         model.addAttribute("boards", boards);
-        int totalData = service.selectBoardCount();
-        String pageBar = page.getPage(cPage, numPerpage, totalData, "boardlist.do", filterType, filterValue);
+        int totalData = service.selectBoardCount(); //전체게시글 수 가져오기
+        String pageBar = page.getPage(cPage, numPerpage, totalData, "boardlist", filterType, filterValue);
         model.addAttribute("pageBar", pageBar);
         model.addAttribute("totalContents", totalData);
         
@@ -148,7 +148,8 @@ public class BoardController {
     @GetMapping("/boardview")
     public String getBoardView(@RequestParam("boardNo") int boardNo, Model model,HttpSession session) {
         Employee loginEmployee = (Employee) session.getAttribute("loginEmployee");
-
+        // 조회수 증가
+        service.incrementBoardHits(boardNo);
         // 서비스나 DAO를 통해 게시글 정보를 가져오는 로직
         Board board = service.selectBoardByNo(boardNo);
         if (board != null) {

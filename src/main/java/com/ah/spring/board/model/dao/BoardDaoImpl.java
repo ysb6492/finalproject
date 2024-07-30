@@ -37,6 +37,10 @@ public class BoardDaoImpl implements BoardDao {
 
 	}
     @Override
+    public int updateBoardHits(int boardNo) {
+        return sqlSession.update("board.updateBoardHits", boardNo);
+    }
+    @Override
     public List<Attachment> selectAttachmentsByBoardNo(int boardNo) {
     	 return sqlSession.selectList("board.selectAttachmentsByBoardNo", boardNo);
     }

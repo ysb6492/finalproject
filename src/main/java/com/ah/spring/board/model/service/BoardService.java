@@ -16,6 +16,8 @@ public interface BoardService {
     //게시글 상세보기
     Board selectBoardByNo(int boardNo);
 	List<Attachment> selectAttachmentsByBoardNo(int boardNo);
+	void incrementBoardHits(int boardNo);
+
 	//댓글 불러올때
 	List<BoardComment> selectCommentsByBoardNo(int boardNo);
 	// 댓글 관련 메소드

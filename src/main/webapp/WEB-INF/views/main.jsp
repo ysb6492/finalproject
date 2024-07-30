@@ -1,11 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
- <c:set var="loginEmployee" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<%@ page import="java.util.Date" %>
+<%
+    Date now = new Date();
+    request.setAttribute("currentTime", now);
+%>
+<c:set var="loginEmployee" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
+<c:set var="commuteData" value="${commuteData}" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="header" value="헤더"/>
 </jsp:include>
+
+
 <style>
 .main-container {
     display: flex;
@@ -32,7 +42,7 @@ aside.sidebar {
     color: #2c3e50;
     margin-bottom: 20px;
     width: 100%;
-    height: 330px;
+    height: 400px;
 }
 
 .profile-card img {
@@ -69,9 +79,9 @@ aside.sidebar {
     padding: 3px 6px; 
     font-size: 15px; 
     margin-right: 10px;
-    border: 2px solid rgb(37, 22, 121); /* 테두리 색상 */
-    color: rgb(37, 22, 121); /* 글자 색상 */
-    background-color: transparent; /* 배경색을 투명하게 */
+    border: 2px solid rgb(106, 90, 205); /* 테두리 색상 */
+    color:rgb(106, 90, 205); /* 글자 색상 */
+    background-color: rgb(193, 184, 247); /* 배경색을 투명하게 */
     border-radius: 20px; /* 둥근 모서리 */
     transition: background-color 0.2s, color 0.2s; /* 호버 효과를 위한 트랜지션 */
 }
@@ -79,13 +89,14 @@ aside.sidebar {
 .custom-btn:hover {
     background-color: rgb(193, 184, 247); /* 호버 시 배경색 */
     border: 2px solid rgb(193, 184, 247); /* 테두리 색상 */
-    color: white; /* 호버 시 글자 색상 */
+    color: black; /* 호버 시 글자 색상 */
 }
 .time-record {
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
 }
+
 
 .time-status {
     color: #9e9e9e; /* 텍스트 색상 */
@@ -191,9 +202,27 @@ section#right > div:nth-child(2) > div:last-child {
     min-width: 30px; /* 최소 너비 설정 */
     min-height: 30px; /* 최소 높이 설정 */
 }
-</style>
 
+
+/* 출퇴근 시간 */
+.current-time {
+    font-size: 25px;
+    font-weight: bold;
+}
+.current-date {
+    font-size: 15px;
+    color: gray;
+}
+</style>
+<%-- <div>
+    <h3>Commute Data 데이터오는지</h3>
+    <p>Commute Data: <c:out value="${sessionScope.commuteData}" /></p>
+    <p>Attendance Time: <c:out value="${sessionScope.attendanceTime}" /></p>
+    <p>Leave Time: <c:out value="${sessionScope.leaveTime}" /></p>
+</div> --%>
 <section class="main-container">
+
+
     <aside class="sidebar">
         <div class="profile-card">
             <div class="profile-info">
@@ -213,18 +242,39 @@ section#right > div:nth-child(2) > div:last-child {
                     <span class="position" style="display: inline-block; font-weight:bold;"><c:out value="${loginEmployee.jobCode.jobName}"/></span>
                 </div> 
             </div>
+            <div class="current-date">
+            	<fmt:formatDate value="${currentTime }" pattern="yyyy-MM-dd(EEE)"/>
+            </div>
+            <div class="current-time" id="time" >
+            	
+            </div>
+            <div id="commute-info"
+                data-attendance-time="${commuteData != null && commuteData.attendanceTime != null ? commuteData.attendanceTime : ''}"
+                data-leave-time="${commuteData != null && commuteData.leaveTime != null ? commuteData.leaveTime : ''}">
+            </div>
+            
             <div style="margin-top:20px">
-			    <button type="button" class="btn btn-outline-success custom-btn" onclick="">출근하기</button>
-			    <button type="button" class="btn btn-outline-success custom-btn" onclick="">퇴근하기</button>
-			</div>  
+                <button id="arrival-btn" type="button" class="btn btn-outline-success custom-btn"
+                    onclick="setTime('arrival-time','출근하시겠습니까?',${loginEmployee.empNo}, '/commute/arrival')">출근하기</button>
+                <button id="leave-btn" type="button" class="btn btn-outline-success custom-btn"
+                    onclick="setTime('leave-time','퇴근하시겠습니까?',${loginEmployee.empNo}, '/commute/leave')">퇴근하기</button>
+            </div>  
             <div style="margin-top:10px; font-size:14px;">
-			    <div class="time-record">
-			        <span>출근시간</span><span class="time-status" >미등록</span>
-			    </div>
-			    <div class="time-record">
-			        <span>퇴근시간</span><span class="time-status">미등록</span>
-			    </div>
-			</div>
+            
+                <div class="time-record">
+                    <span>출근시간</span>
+                    <span class="time-status" id="arrival-time">
+                    	<c:out value="${commuteData != null && commuteData.attendanceTime != null ? commuteData.attendanceTime : '미등록'}"/>
+                    </span>
+                
+                </div>
+                <div class="time-record">
+                    <span>퇴근시간</span>
+                    <span class="time-status" id="leave-time">
+                    	<c:out value="${commuteData != null && commuteData.leaveTime != null ? commuteData.leaveTime : '미등록'}"/>
+                    </span>
+                </div>
+            </div>
         </div>
     </aside>
     <main class="main-content">
@@ -233,10 +283,10 @@ section#right > div:nth-child(2) > div:last-child {
                 <div style="background-color: rgb(188,146,252,0.3); border:none;">
                     <h4 style="font-weight:bold;">전자결재</h4>
                     <div style="margin:20px 0 0 20px;">
-	                    <p style="font-weight:600;">결재 대기중인 문서 :</p>
-	                    <p style="font-weight:600; margin-top:30px;">결재 진행중인 문서 :</p>
-	                    <p style="font-weight:600; margin-top:30px;">결재 반려된 문서 :</p>
-	                    <p style="font-weight:600; margin-top:30px;">결재 승인된 문서 :</p>
+	                    <p style="font-weight:600; margin-top:30px;">결재 대기중인 문서 : 4개 </p>
+	                    <p style="font-weight:600; margin-top:30px;">결재 진행중인 문서 : 1개</p>
+	                    <p style="font-weight:600; margin-top:30px;">결재 반려된 문서 : 2개</p>
+	                    <p style="font-weight:600; margin-top:30px;">결재 승인된 문서 : 1개</p>
                     </div>
                 </div>
                 <div style="background-color:rgb(143,242,246,0.3); border:none;">
@@ -255,6 +305,103 @@ section#right > div:nth-child(2) > div:last-child {
 </section>
 
     <script>
+    	function updateTime(){
+    		const now = new Date();
+    		const hours = String(now.getHours()).padStart(2,"0");
+    		const minutes = String(now.getMinutes()).padStart(2,"0");
+    		const seconds = String(now.getSeconds()).padStart(2,"0");
+    		const currentTime = hours + ":" + minutes + ":" + seconds;
+    		document.getElementById("time").innerText = currentTime;
+    	}
+    	function setTime(settimeId, message, empNo, url) {
+	    		if (confirm(message)) {
+	            const now = new Date();
+	            const hours = String(now.getHours()).padStart(2, '0');
+	            const minutes = String(now.getMinutes()).padStart(2, '0');
+	            const seconds = String(now.getSeconds()).padStart(2, '0');
+	            const currentTime = hours + ":" + minutes + ":" + seconds;
+	            document.getElementById(settimeId).innerText = currentTime;
+	            
+	            
+	            $.ajax({
+	            	type:"POST",
+	            	url:url,
+	            	data:{
+	            		empNo:empNo
+	            	},
+	            	success: function(res){
+/* 	            		alert(res)
+ */	                    if (settimeId === 'arrival-time') {
+	                        document.getElementById('arrival-btn').disabled = true;
+	                        document.getElementById('leave-btn').disabled = false;
+	                        document.getElementById('arrival-btn').classList.add('custom-btn-completed');
+
+	                    } else if (settimeId === 'leave-time') {
+	                        document.getElementById('arrival-btn').disabled = true;
+	                        document.getElementById('leave-btn').disabled = true;
+	                        document.getElementById('leave-btn').classList.add('custom-btn-completed');
+
+	                    }
+	                },
+	                error: function(xhr, status, error) {
+	                    alert("오류 발생: " + error);
+	                }
+	            });
+	        }
+	    }
+    	
+        /* function initializeButtonStates() {
+        	const commuteInfo = document.getElementById('commute-info');
+    		const attendanceTime = commuteInfo.getAttribute('data-attendance-time');
+    		const leaveTime = commuteInfo.getAttribute('data-leave-time');
+
+    		if (!attendanceTime || attendanceTime === '') {
+    			document.getElementById('arrival-btn').disabled = false;
+    			document.getElementById('leave-btn').disabled = true;
+    		} else if (!leaveTime || leaveTime === '') {
+    			document.getElementById('arrival-btn').disabled = true;
+    			document.getElementById('leave-btn').disabled = false;
+    		} else {
+    			document.getElementById('arrival-btn').disabled = true;
+    			document.getElementById('leave-btn').disabled = true;
+    		}
+    	} */
+    	
+
+    
+    	function disableButtonsBeforeSix() {
+    	    const now = new Date();
+    	    const currentHour = now.getHours();
+    	    const commuteInfo = document.getElementById('commute-info');
+    	    const attendanceTime = commuteInfo.getAttribute('data-attendance-time');
+    	    const leaveTime = commuteInfo.getAttribute('data-leave-time');
+    	    
+    	    if (currentHour < 6) {
+    	        document.getElementById('arrival-btn').disabled = true;
+    	        document.getElementById('leave-btn').disabled = true;
+    	    } else {
+    	        if (!attendanceTime || attendanceTime === '') {
+    	            document.getElementById('arrival-btn').disabled = false;
+    	            document.getElementById('leave-btn').disabled = true;
+    	        } else if (!leaveTime || leaveTime === '') {
+    	            document.getElementById('arrival-btn').disabled = true;
+    	            document.getElementById('leave-btn').disabled = false;
+    	        } else {
+    	            document.getElementById('arrival-btn').disabled = true;
+    	            document.getElementById('leave-btn').disabled = true;
+    	        }
+    	    }
+    	} 
+    	window.onload = function(){
+    		updateTime();
+    		setInterval(updateTime,1000);
+            //initializeButtonStates();
+
+            //disableButtonsBeforeSix();
+
+    	}
+    	
+    	
         // 캘린더
         $(document).ready(function() {
             var calendarEl = document.getElementById('calendar');
@@ -335,6 +482,9 @@ section#right > div:nth-child(2) > div:last-child {
             // 캘린더 랜더링
             calendar.render();
         });
+        
+        
+        
     </script>
 	
 

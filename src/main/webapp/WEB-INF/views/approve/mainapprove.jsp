@@ -400,7 +400,6 @@ table th, table td {
 	                        <tr>
 	                            <th>기안일</th>
 	                            <th>결재양식</th>
-	                            <th>긴급</th>
 	                            <th>제목</th>
 	                            <th>문서번호</th>
 	                            <th>결재상태</th>
@@ -410,17 +409,15 @@ table th, table td {
 	                        <tr>
 	                            <td>2024-06-19</td>
 	                            <td>업무기안</td>
-	                            <td>○</td>
-	                            <td>가나다라마바</td>
-	                            <td>11111-1111</td>
+	                            <td>연차신청서</td>
+	                            <td>5</td>
 	                            <td><span class="status complete">완료</span></td>
 	                        </tr>
 	                        <tr>
 	                            <td>2024-06-19</td>
 	                            <td>업무기안</td>
-	                            <td>○</td>
-	                            <td>사아자차카타</td>
-	                            <td>22222-2222</td>
+	                            <td>지출결의서</td>
+	                            <td>15</td>
 	                            <td><span class="status complete">완료</span></td>
 	                        </tr>
 	                        

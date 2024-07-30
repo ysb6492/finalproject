@@ -33,13 +33,13 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
-            background-color: #007bff;
+            background-color: rgb(106, 90, 205);
             color: white;
             border: none;
             cursor: pointer;
         }
         .new-board-btn:hover {
-            background-color: #45a049;
+            background-color: rgb(193, 184, 247);
         }
         .menu {
             list-style: none;
@@ -96,7 +96,6 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
     <script>
     function loadBoardListPage() {
         $.ajax({
