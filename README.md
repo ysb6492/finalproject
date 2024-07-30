@@ -53,8 +53,8 @@
 
 ---
 
-## DB구조
-<img width="800" alt="erd" src="https://github.com/user-attachments/assets/d7518334-ee7b-4931-a196-7f3617bb1d18">
+## DB구조(ERD)
+<img width="770" alt="ERD" src="https://github.com/user-attachments/assets/54bcefd0-0382-4c6d-a10a-4065fb2ef78f">
 
 ## 로그인 및 메인화면
 <img width="300" alt="로그인화면" src="https://github.com/user-attachments/assets/0a14453b-cc11-417e-8584-cdbaba3443ee">
