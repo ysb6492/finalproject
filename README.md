@@ -56,6 +56,7 @@
 ## 로그인 및 메인화면
 <img width="300" alt="로그인화면" src="https://github.com/user-attachments/assets/0a14453b-cc11-417e-8584-cdbaba3443ee">
 <img width="400" alt="메인페이지" src="https://github.com/user-attachments/assets/6719c14e-fd19-413f-a150-be7a0f17c10e"><br>
+
 **구현기능 설명**
 - 기본적인 로그인, 로그아웃
 - Spring Security로 계정 권한 부여
@@ -66,6 +67,7 @@
 <img width="350" alt="인사관리-사원조회" src="https://github.com/user-attachments/assets/f6043cc0-b7a3-450e-9fb5-38583ca928a0">
 <img width="350" alt="인사관리_사원등록" src="https://github.com/user-attachments/assets/18a045fd-3143-46cc-a81d-06e4065ccfb9">
 <img width="95" alt="근태기록" src="https://github.com/user-attachments/assets/901d8043-6264-4c71-995f-ec8491a7489e"><br>
+
 **구현기능 설명**
 - 조건검색을 통한 직원 검색 및 페이징 처리
 - 조회목록에서 다수 선택 후 삭제기능
@@ -78,6 +80,7 @@
 <img width="300" alt="결재문서함" src="https://github.com/user-attachments/assets/b78b6fba-ec11-4796-9640-822c216702c4">
 <img width="250" alt="기안문서함" src="https://github.com/user-attachments/assets/337934fe-3462-4f0a-b8b5-343a7f3484e1"><br>
 <img width="250" alt="지출결의서" src="https://github.com/user-attachments/assets/e7c55a4b-dbe1-4791-90cf-aef62b80ee67"><br>
+
 **구현기능 설명**
 - 기본적인 내용작성 후 결재상신(휴가신청서, 지출결의서, 연장근무신청서)
 - 결재라인별 해당부서의 사원조회 및 결재자 선택(최종결재자는 과장급만 선택가능O, 팀장,대리급 선택X)
@@ -89,6 +92,7 @@
 ## 게시판 화면(게시판 글 작성, 댓글, 대댓글, 조회 수)
 <img width="818" alt="게시판" src="https://github.com/user-attachments/assets/6d0c219f-789c-4a6f-b476-69258deb1292">
 <img width="400" alt="게시글 상세보기_댓글" src="https://github.com/user-attachments/assets/20424746-3232-4845-9ee2-7ed8135942b6"><br>
+
 **구현기능 설명**
 - 자유게시판 글 작성 및 검색에 따른 페이징 처리(작성,삭)
 - 글 작성 시 첨부파일 기능
