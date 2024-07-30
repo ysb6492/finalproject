@@ -56,8 +56,11 @@
 ## DB구조
 <img width="800" alt="erd" src="https://github.com/user-attachments/assets/d7518334-ee7b-4931-a196-7f3617bb1d18">
 
-## 로그인화면 및 메인화면
+## 로그인 및 메인화면
 <img width="300" alt="로그인화면" src="https://github.com/user-attachments/assets/0a14453b-cc11-417e-8584-cdbaba3443ee">
 <img width="400" alt="메인페이지" src="https://github.com/user-attachments/assets/6719c14e-fd19-413f-a150-be7a0f17c10e">
+
+## 인사관리 화면(직원등록,수정,삭제,조)
+
 
 
