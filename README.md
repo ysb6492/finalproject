@@ -57,5 +57,5 @@
 <img width="800" alt="erd" src="https://github.com/user-attachments/assets/d7518334-ee7b-4931-a196-7f3617bb1d18">
 
 ## 로그인화면 및 메인화면
-<img width="300" alt="login" src="https://github.com/user-attachments/assets/7422d290-7f4f-408a-8d9f-e56b9eef6c05">
+<img width="300" height="250" alt="login" src="https://github.com/user-attachments/assets/7422d290-7f4f-408a-8d9f-e56b9eef6c05">
 
