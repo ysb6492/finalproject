@@ -61,6 +61,9 @@
 <img width="400" alt="메인페이지" src="https://github.com/user-attachments/assets/6719c14e-fd19-413f-a150-be7a0f17c10e">
 
 ## 인사관리 화면(직원등록,수정,삭제,조)
+<img width="350" alt="인사관리_사원수정" src="https://github.com/user-attachments/assets/2269f786-7e72-41f3-a8df-5543f5d92789">
+<img width="350" alt="인사관리-사원조회" src="https://github.com/user-attachments/assets/f6043cc0-b7a3-450e-9fb5-38583ca928a0">
+<img width="350" alt="인사관리_사원등록" src="https://github.com/user-attachments/assets/18a045fd-3143-46cc-a81d-06e4065ccfb9">
 
 
 
