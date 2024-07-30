@@ -71,14 +71,21 @@
    - 조회목록에서 다수 선택 후 삭제기능
    - 인사부의 특정직원 클릭시 상세페이지로 이동 후 수정(부서 수정 )처리 기능
    - 프로필사진 및 직원의 개인정보 등록/ 등록시 아이디 중복체크 및 비밀번호 정규식을 통한 체크 
+   - 근태 관리 구현중(현재 출근퇴근버튼 누를시 DB에 저장되어 불러오기까지-> 근태이력 조회 구현중)
 
 ## 전자결재 화면(전자결재 메인, 문서함, 작성 등)
 <img width="250" alt="전자결재_메인화면" src="https://github.com/user-attachments/assets/a81866fd-93fb-4fb0-adfb-84ee5e1ff908"><br>
 <img width="300" alt="결재문서함" src="https://github.com/user-attachments/assets/b78b6fba-ec11-4796-9640-822c216702c4">
 <img width="250" alt="기안문서함" src="https://github.com/user-attachments/assets/337934fe-3462-4f0a-b8b5-343a7f3484e1"><br>
 <img width="250" alt="지출결의서" src="https://github.com/user-attachments/assets/e7c55a4b-dbe1-4791-90cf-aef62b80ee67">
-1. 구현기능 설명
-   -
+ 구현기능 설명
+   -기본적인 내용작성 후 결재상신(휴가신청서, 지출결의서, 연장근무신청서)
+   - 결재라인별 해당부서의 사원조회 및 결재자 선택(최종결재자는 과장급만 선택가능O, 팀장,대리급 선택X)
+   - 결재상태별 대기중, 진행중, 반려됨, 승인됨 구분
+   - 팀장,대리급 결재자의 결재반려시 과장급 최종결재자의 결재문서함에 미표시
+   - 팀장,대리급 결재자의 결재승인이 모두 이루러어지면 최종결재자의 결재문서함에 표시(승인시->기안자의 기안문서함에 문서상태 '승인')
+   - 결재할 문서의 임시저장기능(임시저장 문서함) 및 내용보완 후 다시 결재요청기능
+   - 
 ## 게시판 화면(게시판 글 작성, 댓글, 대댓글, 조회 수)
 <img width="818" alt="게시판" src="https://github.com/user-attachments/assets/6d0c219f-789c-4a6f-b476-69258deb1292">
 <img width="400" alt="게시글 상세보기_댓글" src="https://github.com/user-attachments/assets/20424746-3232-4845-9ee2-7ed8135942b6">
