@@ -60,10 +60,12 @@
 <img width="300" alt="로그인화면" src="https://github.com/user-attachments/assets/0a14453b-cc11-417e-8584-cdbaba3443ee">
 <img width="400" alt="메인페이지" src="https://github.com/user-attachments/assets/6719c14e-fd19-413f-a150-be7a0f17c10e">
 
-## 인사관리 화면(직원등록,수정,삭제,조회)
+## 인사관리 화면(직원등록,수정,삭제,조회, 근태)
 <img width="350" alt="인사관리_사원수정" src="https://github.com/user-attachments/assets/2269f786-7e72-41f3-a8df-5543f5d92789">
 <img width="350" alt="인사관리-사원조회" src="https://github.com/user-attachments/assets/f6043cc0-b7a3-450e-9fb5-38583ca928a0">
 <img width="350" alt="인사관리_사원등록" src="https://github.com/user-attachments/assets/18a045fd-3143-46cc-a81d-06e4065ccfb9">
+<img width="95" alt="근태기록" src="https://github.com/user-attachments/assets/901d8043-6264-4c71-995f-ec8491a7489e">
+
 
 ## 전자결재 화면(전자결재 메인, 문서함, 작성 등)
 <img width="250" alt="전자결재_메인화면" src="https://github.com/user-attachments/assets/a81866fd-93fb-4fb0-adfb-84ee5e1ff908"><br>
