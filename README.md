@@ -65,10 +65,10 @@
 
 ---
 ## 전자결재 화면(전자결재 메인, 문서함, 작성 등)
-<img width="250" alt="전자결재_메인화면" src="https://github.com/user-attachments/assets/a81866fd-93fb-4fb0-adfb-84ee5e1ff908"><br>
-<img width="300" alt="결재문서함" src="https://github.com/user-attachments/assets/b78b6fba-ec11-4796-9640-822c216702c4">
-<img width="250" alt="기안문서함" src="https://github.com/user-attachments/assets/337934fe-3462-4f0a-b8b5-343a7f3484e1"><br>
-<img width="250" alt="지출결의서" src="https://github.com/user-attachments/assets/e7c55a4b-dbe1-4791-90cf-aef62b80ee67"><br>
+<img width="400" alt="전자결재_메인화면" src="https://github.com/user-attachments/assets/a81866fd-93fb-4fb0-adfb-84ee5e1ff908"><br>
+<img width="400" alt="결재문서함" src="https://github.com/user-attachments/assets/b78b6fba-ec11-4796-9640-822c216702c4">
+<img width="400" alt="기안문서함" src="https://github.com/user-attachments/assets/337934fe-3462-4f0a-b8b5-343a7f3484e1"><br>
+<img width="400" alt="지출결의서" src="https://github.com/user-attachments/assets/e7c55a4b-dbe1-4791-90cf-aef62b80ee67"><br>
 
 **구현기능 설명**
 - 기본적인 내용작성 후 결재유형별 기안하기(휴가신청서-연차일수 계산, 지출결의서-지출항목,금액합계 계산, 연장근무신청서-시간계산)
