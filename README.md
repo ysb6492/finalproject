@@ -38,6 +38,7 @@
 
 ## DB구조(ERD)
 <img width="770" alt="ERD" src="https://github.com/user-attachments/assets/54bcefd0-0382-4c6d-a10a-4065fb2ef78f">
+
 - OracleDB를 이용하여 SQL문을 통해 테이블 생성 및 데이터 삽입,삭제,수정,조회, 트리거 등을 활용
 
 ---
