@@ -82,7 +82,7 @@
 ---
 ## 게시판 화면(게시판 글 작성, 댓글, 대댓글, 조회 수)
 <img width="818" alt="게시판" src="https://github.com/user-attachments/assets/6d0c219f-789c-4a6f-b476-69258deb1292">
-<img width="400" alt="게시글 상세보기_댓글" src="https://github.com/user-attachments/assets/20424746-3232-4845-9ee2-7ed8135942b6"><br>
+<img width="548" alt="게시판 상세 및 댓글" src="https://github.com/user-attachments/assets/f50f06a9-6463-4d1f-9832-e90075e18c49">
 
 **구현기능 설명**
 - 자유게시판 글 작성 및 검색에 따른 페이징 처리(작성,삭)
