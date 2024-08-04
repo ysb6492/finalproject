@@ -53,10 +53,11 @@
 
 ---
 ## 인사관리 화면(직원등록,수정,삭제,조회, 근태)
-<img width="350" alt="인사관리_사원수정" src="https://github.com/user-attachments/assets/2269f786-7e72-41f3-a8df-5543f5d92789">
-<img width="350" alt="인사관리-사원조회" src="https://github.com/user-attachments/assets/f6043cc0-b7a3-450e-9fb5-38583ca928a0">
-<img width="350" alt="인사관리_사원등록" src="https://github.com/user-attachments/assets/18a045fd-3143-46cc-a81d-06e4065ccfb9">
-<img width="95" alt="근태기록" src="https://github.com/user-attachments/assets/901d8043-6264-4c71-995f-ec8491a7489e"><br>
+<img width="700" alt="인사관리_사원수정" src="https://github.com/user-attachments/assets/2269f786-7e72-41f3-a8df-5543f5d92789"><br>
+<img width="700" alt="인사관리-사원조회" src="https://github.com/user-attachments/assets/f6043cc0-b7a3-450e-9fb5-38583ca928a0"><br>
+<img width="700" alt="인사관리_사원등록" src="https://github.com/user-attachments/assets/18a045fd-3143-46cc-a81d-06e4065ccfb9"><br>
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/fdba9273-335e-4ec4-bb16-ba56d162c3cb">
+
 
 **구현기능 설명**
 - 조건검색을 통한 직원 검색 및 페이징 처리
