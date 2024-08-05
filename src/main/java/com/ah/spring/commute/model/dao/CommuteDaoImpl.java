@@ -1,5 +1,6 @@
 package com.ah.spring.commute.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -14,30 +15,30 @@ public class CommuteDaoImpl implements CommuteDao {
 	
     private final SqlSession sqlSession;
     
-//    @Override
-//    public Map<String, Object> getCommuteStatus(Map<String, Object> params) {
-////        System.out.println("DAO: getCommuteStatus with params: " + params);
-////        return sqlSession.selectOne("commute.getCommuteStatus", params);
-//        System.out.println("DAO 조회 params: " + params);
-//
-//    	 Map<String, Object> result = sqlSession.selectOne("commute.getCommuteStatus", params);
-//         System.out.println("DAO 조회 결과: " + result); // 로그 추가
-//         return result;
-//    }
+
     
     @Override
     public Map<String, Object> getCommuteStatus(Map<String, Object> params) {
-        return sqlSession.selectOne("commute.getCommuteStatus", params);
+    	 System.out.println("DAO getCommuteStatus params: " + params);
+    	    Map<String, Object> result = sqlSession.selectOne("commute.getCommuteStatus", params);
+    	    System.out.println("DAO getCommuteStatus 결과: " + result);
+    	    return result;
     }
     @Override
     public void saveArrivalTime(Map<String, Object> params) {
-        //System.out.println("DAO 출근 params: " + params);
+    	System.out.println("DAO saveArrivalTime params: " + params);
         sqlSession.insert("commute.saveArrivalTime", params);
+        System.out.println("DAO saveArrivalTime 완료");
     }
     @Override
     public void updateLeaveTime(Map<String, Object> params) {
-        //System.out.println("DAO 퇴근 params: " + params);
+    	System.out.println("DAO updateLeaveTime params: " + params);
         sqlSession.update("commute.updateLeaveTime", params);
+        System.out.println("DAO updateLeaveTime 완료");
     }
 
+    @Override
+    public List<Map<String, Object>> selectWeekCommuteStatus(Map<String, Object> params) {
+        return sqlSession.selectList("commute.getWeekCommuteStatus", params);
+    }
 }

@@ -7,6 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="" value="헤더"/>
 </jsp:include>
+
 <style>
 body {
     background-color: #f8f9fa;
@@ -20,8 +21,7 @@ body {
      display: flex;
      min-height: 100vh;
      width: 100%;
- }
-
+}
 .sidebar {
     width: 250px;
     background-color: #f4f4f4;
@@ -33,6 +33,8 @@ body {
 .sidebar h2 {
     font-size: 24px;
     margin-bottom: 20px;
+    font-weight: bold;
+    
 }
 
 .new-doc-btn {
@@ -72,6 +74,8 @@ body {
     flex: 1;
     padding: 20px;
 	width: calc(100% - 250px);
+	background: #fff;
+	
 }
 
 

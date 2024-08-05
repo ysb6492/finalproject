@@ -139,22 +139,12 @@
                 </div>
                 
                 <div class="row mb-3">
-                  <div class="col-sm-7 ">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="remember-me">
-                      <label class="form-check-label" for="remember-me">
-                        로그인 저장
-                      </label>
-                    </div>
-                 
-                  </div>
+                  
                 </div>
                 <div class="text-center d-grid gap-2 col-8 mx-auto">
                     <button type="submit" class="btn btn-primary">로그인</button>
                 </div>
-                <div style="text-align:center;">
-                	<a href="">비밀번호 찾기</a>
-                </div>
+                
             </form>
         </div>
         <div class="side-img-container">

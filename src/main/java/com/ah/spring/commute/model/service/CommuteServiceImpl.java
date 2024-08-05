@@ -1,5 +1,6 @@
 package com.ah.spring.commute.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -13,21 +14,13 @@ import lombok.RequiredArgsConstructor;
 public class CommuteServiceImpl implements CommuteService {
 	private final CommuteDao comDao;
 	
-	
-//    @Override
-//    public Map<String, Object> getCommuteStatus(Map<String, Object> params) {
-////        System.out.println("Service: Getting commute status with params: " + params);
-////        return comDao.getCommuteStatus(params);
-//        System.out.println("Service 조회 params: " + params);
-//
-//    	 Map<String, Object> result = comDao.getCommuteStatus(params);
-//         System.out.println("Service 조회 결과: " + result); // 로그 추가
-//         return result;
-//    }
     
     @Override
     public Map<String, Object> getCommuteStatus(Map<String, Object> params) {
-        return comDao.getCommuteStatus(params);
+        Map<String, Object> result = comDao.getCommuteStatus(params);
+        System.out.println("ServiceImpl getCommuteStatus 결과: " + result);
+        return result;
+//        return comDao.getCommuteStatus(params);
     }
 	@Override
     public void saveArrivalTime(Map<String, Object> params) {
@@ -40,5 +33,11 @@ public class CommuteServiceImpl implements CommuteService {
         //System.out.println("Service 퇴근 params: " + params);
 
 		comDao.updateLeaveTime(params);
+    }
+	
+	
+    @Override
+    public List<Map<String, Object>> getWeekCommuteStatus(Map<String, Object> params) {
+        return comDao.selectWeekCommuteStatus(params);
     }
 }

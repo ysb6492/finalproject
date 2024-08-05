@@ -88,16 +88,12 @@ public class ApproveController {
 	        @RequestParam(defaultValue = "-1") int status, // 기본값을 -1로 설정하여 전체 문서 조회
     		HttpSession session, Model model) {
         Employee loginEmployee = (Employee) session.getAttribute("loginEmployee");
-
-        if (loginEmployee == null) {
-        	return "redirect:/login";
-        }
+        if (loginEmployee == null) {return "redirect:/login";}
         int empNo = loginEmployee.getEmpNo();
         
         
         List<AppDocument> draftList;
         int totalData;
-
         if (status == -1) { // 전체 조회
             draftList = apprService.selectDraftList(empNo, cPage, numPerpage);
             totalData = apprService.selectDraftCount(empNo);
@@ -124,15 +120,10 @@ public class ApproveController {
         Model model) {
         
         Employee loginEmployee = (Employee) session.getAttribute("loginEmployee");
-
-        if (loginEmployee == null) {
-        	return "redirect:/login";
-        }
-
+        if (loginEmployee == null) {return "redirect:/login";}
         int empNo = loginEmployee.getEmpNo();
-        System.out.println("로그인한 직원 번호: " + empNo);
+        
         model.addAttribute("empNo", empNo);
-
         //페이징처리
         int start = (cPage - 1) * numPerpage + 1;
         int end = cPage * numPerpage;
@@ -160,12 +151,10 @@ public class ApproveController {
     		@RequestParam(defaultValue="10") int numPerpage,
     		HttpSession session, Model model) {
         Employee loginEmployee = (Employee) session.getAttribute("loginEmployee");
-
-        if (loginEmployee == null) {
-            return "redirect:/login";
-        }
+        if (loginEmployee == null) {return "redirect:/login";}
         int empNo = loginEmployee.getEmpNo();
     
+        
         List<AppDocument> tempsaveList = apprService.selectTempSaveList(empNo, cPage, numPerpage);
         System.out.println("controller: "+tempsaveList);
         int totalData = apprService.selectTempSaveCount(empNo);
@@ -206,9 +195,7 @@ public class ApproveController {
                 .empNo(Employee.builder().empNo(empNo).build())
                 .docStatus(docStatus) //대기중
                 .build();
-
         apprService.insertApprovalDocument(document);
-
 
      // LeaveRequest 객체 생성 및 삽입
         LeaveReq leaveRequest = LeaveReq.builder()
@@ -235,9 +222,7 @@ public class ApproveController {
                     .build();
             apprService.insertApprovalLine(approvalLine);
         }
-
-        
-        
+    
         // AppAttachment 객체 생성 및 삽입
         String uploadDir = servletContext.getRealPath("/resources/upload/approve");
         for (MultipartFile file : files) {
@@ -246,7 +231,6 @@ public class ApproveController {
                 apprService.insertFile(attachment);
             }
         }
-        
         
         int cPage = 1;
         int numPerpage = 5;
@@ -261,10 +245,7 @@ public class ApproveController {
      // 임시저장 시에는 임시저장 문서함으로 리다이렉트, 그렇지 않으면 기안문서함으로 리다이렉트
         return docStatus == 4 ? "approve/tempsaveList" : "approve/draftList";
     }
-    
-    
-    
-    
+        
     // AppAttachment 객체 생성
     private AppAttachment createAttachment(int docNo, MultipartFile file,String uploadDir) {
     	String originalFileName = file.getOriginalFilename();

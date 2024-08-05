@@ -8,7 +8,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="" value="헤더"/>
 </jsp:include>
-</head>
 <style>
 body {
     background-color: #f8f9fa;
@@ -16,21 +15,23 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    
 }
-
 .employee-container {
      display: flex;
      min-height: 100vh;
      width: 100%;
  }
-
 .sidebar {
     width: 250px;
     background-color: #f4f4f4;
     padding: 20px;
     border-right: 0.5px solid rgb(202, 202, 202);
-    flex-shrink: 0; /* 사이드바 안줄어들게하는거*/
+    flex-shrink: 0; /* 사이드바 안줄어들게하는거 */
+}
+.sidebar h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 .sidebar ul.menu {
     padding: 0;
@@ -128,7 +129,9 @@ body {
 .content {
     
     padding: 20px;
-	width: 70%;
+	width: 100%;
+	background: #fff;
+	
 }
 
 
@@ -148,7 +151,10 @@ body {
 			    <li>
 			        <a href="" class="submenu-toggle">근태관리</a>
 			        <ul style="text-align: center;">
-			            <li><a href="#" onclick="loadMyPage()">나의 기본정보</a></li>
+			            <li><a href="#" onclick="loadMyWorktimePage()">나의 근태현황</a></li>
+			            <li><a href="#" onclick="loadMyInfoPage()">나의 기본정보</a></li>
+			            <li><a href="#" onclick="loadMyCommutePage()">나의 연차내역</a></li>
+			            
 			        </ul>
 			    </li>
 			    <li>
@@ -158,9 +164,7 @@ body {
 			            <li><a href="#" onclick="loadEmpEnrollPage()">사원 등록</a></li>
 			        </ul>
 			    </li>
-			    <li>
-			        <a href="#" onclick="loadDeptPage()">부서관리</a>
-			    </li>
+
 			</ul>
         </aside>
         <div class="content" >
@@ -170,22 +174,22 @@ body {
 	    </div>
     </div>
 <script>
-$(document).ready(function() {
-    $('.submenu-toggle').click(function(e) {
-        e.preventDefault();
-        var $submenu = $(this).next('ul');
-
-        if ($(this).hasClass('active')) {
-            $submenu.slideUp();
-            $(this).removeClass('active');
-        } else {
-            $('.submenu-toggle.active').next('ul').slideUp();
-            $('.submenu-toggle.active').removeClass('active');
-            $submenu.slideDown();
-            $(this).addClass('active');
-        }
-    });
-});
+	$(document).ready(function() {
+	    $('.submenu-toggle').click(function(e) {
+	        e.preventDefault();
+	        var $submenu = $(this).next('ul');
+	
+	        if ($(this).hasClass('active')) {
+	            $submenu.slideUp();
+	            $(this).removeClass('active');
+	        } else {
+	            $('.submenu-toggle.active').next('ul').slideUp();
+	            $('.submenu-toggle.active').removeClass('active');
+	            $submenu.slideDown();
+	            $(this).addClass('active');
+	        }
+	    });
+	});
 
     //사원조회페이지 불러오기
     function loadEmpSearchPage() {
@@ -208,6 +212,57 @@ $(document).ready(function() {
     function loadEmpEnrollPage(){
     	$.ajax({
     		url: '${path}/employee/empenroll',
+    		method: 'GET',
+    		success: function(response){
+    			$('.content').html(response);
+    			
+    		},
+    		error: function(xhr, status, error) {
+    			if (xhr.status === 403) {
+                    alert('접근 권한이 없습니다.');
+                } else {
+                    alert('문서를 불러오는 중 오류가 발생했습니다.');
+                }
+            }
+    	});
+    }
+    function loadMyInfoPage(){
+    	$.ajax({
+    		url: '${path}/commute/myinformation',
+    		method: 'GET',
+    		success: function(response){
+    			$('.content').html(response);
+    			
+    		},
+    		error: function(xhr, status, error) {
+    			if (xhr.status === 403) {
+                    alert('접근 권한이 없습니다.');
+                } else {
+                    alert('문서를 불러오는 중 오류가 발생했습니다.');
+                }
+            }
+    	});
+    }
+    function loadMyCommutePage(){
+    	$.ajax({
+    		url: '${path}/commute/mycommute',
+    		method: 'GET',
+    		success: function(response){
+    			$('.content').html(response);
+    			
+    		},
+    		error: function(xhr, status, error) {
+    			if (xhr.status === 403) {
+                    alert('접근 권한이 없습니다.');
+                } else {
+                    alert('문서를 불러오는 중 오류가 발생했습니다.');
+                }
+            }
+    	});
+    }
+    function loadMyWorktimePage(){
+    	$.ajax({
+    		url: '${path}/commute/myworktime',
     		method: 'GET',
     		success: function(response){
     			$('.content').html(response);

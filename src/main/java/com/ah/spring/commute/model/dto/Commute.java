@@ -1,6 +1,6 @@
 package com.ah.spring.commute.model.dto;
 
-import java.sql.Date; 
+import java.sql.Date;  
 import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
@@ -16,7 +16,8 @@ public class Commute {
 	private int commuteNo;
 	private int empNo;
 	private Date commuteDate;
-	private Timestamp attendanceTime;
+	private Timestamp  attendanceTime;
 	private Timestamp leaveTime;
+	private String totalhours;
 	private String status;
 }

@@ -8,62 +8,62 @@
 <c:set var="loginEmployee" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 <!-- 이부분 수정하기 꼭 아이디에서 이름과 직책으로 -->
 
-    <style>
-        body {
-            font-family: 'Malgun Gothic', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 100%; /* 가로 길이를 80%로 설정 */
-            max-width: 1500px;
-            padding: 20px;
-            margin: 0px;
-            background-color: white;
-        }
-        .post-header {
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 15px;
-        }
-        .post-header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-        .post-meta {
-            margin: 10px 0;
-            color: #666;
-            font-size: 14px;
-        }
-        .post-meta img {
-            vertical-align: middle;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            margin-right: 10px;
-        }
-        .post-content {
-            margin: 20px 0;
-        }
-        .post-content img {
-            max-width: 100%;
-            height: auto;
-        }
-        .post-content p {
-            line-height: 1.6;
-        }
-        .post-footer {
-            border-top: 1px solid #ddd;
-            padding-top: 15px;
-        }
-        .post-footer span {
-            display: inline-block;
-            margin-right: 10px;
-            font-size: 14px;
-            color: #666;
-        }
-        .comment-section {
-        margin-top: 20px;
+<style>
+    body {
+        font-family: 'Malgun Gothic', sans-serif;
+        margin: 0;
+        padding: 0;
     }
+    .container {
+        width: 100%; /* 가로 길이를 80%로 설정 */
+        max-width: 1500px;
+        padding: 20px;
+        margin: 0px;
+        background-color: white;
+    }
+    .post-header {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 15px;
+    }
+    .post-header h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+    .post-meta {
+        margin: 10px 0;
+        color: #666;
+        font-size: 14px;
+    }
+    .post-meta img {
+        vertical-align: middle;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+    }
+    .post-content {
+        margin: 20px 0;
+    }
+    .post-content img {
+        max-width: 100%;
+        height: auto;
+    }
+    .post-content p {
+        line-height: 1.6;
+    }
+    .post-footer {
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+    }
+    .post-footer span {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 14px;
+        color: #666;
+    }
+    .comment-section {
+   	 margin-top: 20px;
+	}
     .comment {
         border-bottom: 1px solid #ddd;
         padding: 10px 0;
@@ -133,6 +133,24 @@
     .comment-input button:hover {
         text-decoration: underline;
     }
+    .button {
+	    display: inline-block; /* 인라인 블록으로 설정하여 버튼 사이의 간격을 유지합니다 */
+	    padding: 5px 10px; /* 버튼 내부의 여백을 설정합니다 */
+	    margin: 5px 0; /* 버튼 위아래의 간격을 설정합니다 */
+	    font-size: 11px; /* 폰트 크기를 설정합니다 */
+	    font-weight: bold; /* 폰트를 굵게 설정합니다 */
+	    color: #fff; /* 텍스트 색상을 흰색으로 설정합니다 */
+	    background-color:rgb(106, 90, 205); /* 배경색을 파란색으로 설정합니다 */
+	    border: none; /* 테두리를 제거합니다 */
+	    border-radius: 5px; /* 모서리를 둥글게 만듭니다 */
+	    cursor: pointer; /* 커서를 포인터 모양으로 변경합니다 */
+	    transition: background-color 0.3s ease; /* 배경색 변경에 트랜지션을 추가합니다 */
+	}
+	
+	/* 버튼에 호버 시 색상 변경 */
+	.button:hover {
+	    background-color: rgb(193, 184, 247); /* 호버 시 더 어두운 파란색으로 변경합니다 */
+	}
     </style>
 <body>
     <div class="container" >
@@ -171,45 +189,47 @@
             <span>좋아요 누른 사람 0명</span>
         </div>
         <div class="buttons">
-            <button class="edit" onclick="location.href='${path}/board/edit/${board.boardNo}'">수정</button>
-            <button class="delete" onclick="deletePost(${board.boardNo})">삭제</button>
+            <button class=button onclick="location.href='${path}/board/edit/${board.boardNo}'">수정</button>
+            <button class="button" onclick="deletePost(${board.boardNo})">삭제</button>
         </div>
         <div class="comment-section">
             <div id="commentList">
 		        <c:forEach var="comment" items="${board.comments}">
-    <div class="comment" id="comment-${comment.commentNo}" style="margin-left: ${comment.commentLevel * 20}px;">
-        <c:choose>
-            <c:when test="${not empty comment.writerProfileReName}">
-                <img src="${path}/resources/upload/employee/${comment.writerProfileReName}" alt="Profile Picture" width="30" height="30">
-            </c:when>
-            <c:otherwise>
-                <img src="${path}/resources/images/basicprofile.png" alt="Basic Profile Picture" width="30" height="30">
-            </c:otherwise>
-        </c:choose>
-        <div class="comment-content">
-            <p class="comment-author"><strong>${comment.commentWriter}</strong></p>
-            <p class="comment-date"><strong><fmt:formatDate value="${comment.createdAt}" pattern="yyyy-MM-dd HH:mm"/></strong></p>
-            <p class="comment-content">${comment.commentContent}</p>
-            <c:if test="${comment.commentWriter == loginEmployee.empId}">
-                <button onclick="deleteComment(${comment.commentNo})">삭제</button>
-            </c:if>
-    <button onclick="showReplyForm(${comment.commentNo}, ${comment.commentLevel})">답글</button>
-        </div>
-         <div id="replyForm-${comment.commentNo}" style="display: none;">
-        <textarea id="replyContent-${comment.commentNo}" placeholder="답글을 남겨보세요"></textarea>
-        <button onclick="addReply(${comment.commentNo}, ${comment.commentLevel + 1})">답글 작성</button>
-    </div>
-    </div>
-</c:forEach>
+				    <div class="comment" id="comment-${comment.commentNo}" style="margin-left: ${comment.commentLevel * 20}px;">
+				        <c:choose>
+				            <c:when test="${not empty comment.writerProfileReName}">
+				                <img src="${path}/resources/upload/employee/${comment.writerProfileReName}" alt="Profile Picture" width="30" height="30">
+				            </c:when>
+				            <c:otherwise>
+				                <img src="${path}/resources/images/basicprofile.png" alt="Basic Profile Picture" width="30" height="30">
+				            </c:otherwise>
+				        </c:choose>
+				        <div class="comment-content">
+				            <p class="comment-author"><strong>${comment.commentWriter}</strong></p>
+				            <p class="comment-date"><strong><fmt:formatDate value="${comment.createdAt}" pattern="yyyy-MM-dd HH:mm"/></strong></p>
+				            <p class="comment-content">${comment.commentContent}</p>
+					            <c:if test="${comment.commentWriter == loginEmployee.empId}">
+					                <button class="button" onclick="deleteComment(${comment.commentNo})">삭제</button>
+					            </c:if>
+				   				<button class="button" onclick="showReplyForm(${comment.commentNo}, ${comment.commentLevel})">답글</button>
+				        </div>
+				         <div id="replyForm-${comment.commentNo}" style="display: none;">
+				      	  	<textarea id="replyContent-${comment.commentNo}" placeholder="답글을 남겨보세요"></textarea>
+				        	<button onclick="addReply(${comment.commentNo}, ${comment.commentLevel + 1})">답글 작성</button>
+				  	 	</div>
+			   	 </div>
+				</c:forEach>
 		    </div>
         </div>
         <div class="comment-input">
 		    <textarea id="commentContent" placeholder="댓글을 남겨보세요"></textarea>
 		    <button onclick="addComment(${board.boardNo})">댓글 작성</button>
 		</div>
-		<div id="replyForm" style="display: none;">
-		    <textarea id="replyContent" placeholder="답글을 입력하세요"></textarea>
-		    <button onclick="addReply()">답글 작성</button>
+		<div id="replyForm" style="display: none; width: 100%;">
+		    <div style="display: flex; align-items: center; width: 100%;">
+        		<textarea id="replyContent" placeholder="답글을 입력하세요" style="width: 100%; box-sizing: border-box; margin-right: 10px;" ></textarea>
+		        <button class="button" onclick="addReply()">답글 작성</button>
+		    </div>
 		    <input type="hidden" id="parentId">
 		    <input type="hidden" id="replyLevel">
 		</div>
@@ -280,7 +300,7 @@
 	                // 삭제버튼 댓글 작성하자마자 같이 나오게
 	                let deleteButton = '';
 	                if (data.commentWriter === loginEmpId) {
-	                    deleteButton = '<button onclick="deleteComment(' + data.commentNo + ')">삭제</button>';
+	                    deleteButton = '<button class="button" onclick="deleteComment(' + data.commentNo + ')">삭제</button>';
 	                }
 	                
 	                
@@ -408,7 +428,7 @@
 	                }
 	                var deleteButton = '';
 	                if (data.commentWriter === loginEmpId) {
-	                    deleteButton = '<button onclick="deleteComment(' + data.commentNo + ')">삭제</button>';
+	                    deleteButton = '<button class="button" onclick="deleteComment(' + data.commentNo + ')">삭제</button>';
 	                }
 
 	                newComment.innerHTML =

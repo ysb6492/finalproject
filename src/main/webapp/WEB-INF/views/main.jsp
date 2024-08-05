@@ -14,7 +14,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="header" value="헤더"/>
 </jsp:include>
-
+<pre>
+<c:out value="${commuteData}sss"/>
+</pre>
 
 <style>
 .main-container {
@@ -48,8 +50,7 @@ aside.sidebar {
 .profile-card img {
     border-radius: 50%;
     margin-bottom: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    
+    border: 1px solid rgba(0, 0, 0, 0.1);    
     height: 120px;
     width: 110px;
 }
@@ -79,35 +80,26 @@ aside.sidebar {
     padding: 3px 6px; 
     font-size: 15px; 
     margin-right: 10px;
-    border: 2px solid rgb(106, 90, 205); /* 테두리 색상 */
-    color:rgb(106, 90, 205); /* 글자 색상 */
-    background-color: rgb(193, 184, 247); /* 배경색을 투명하게 */
-    border-radius: 20px; /* 둥근 모서리 */
-    transition: background-color 0.2s, color 0.2s; /* 호버 효과를 위한 트랜지션 */
+    border: 2px solid rgb(106, 90, 205); 
+    color:rgb(106, 90, 205); 
+    background-color: rgb(193, 184, 247); 
+    border-radius: 20px; 
+    transition: background-color 0.2s, color 0.2s; 
 }
 
 .custom-btn:hover {
-    background-color: rgb(193, 184, 247); /* 호버 시 배경색 */
-    border: 2px solid rgb(193, 184, 247); /* 테두리 색상 */
-    color: black; /* 호버 시 글자 색상 */
+    background-color: rgb(193, 184, 247); 
+    border: 2px solid rgb(193, 184, 247); 
+    color: black; 
 }
 .time-record {
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
 }
-
-
 .time-status {
-    color: #9e9e9e; /* 텍스트 색상 */
+    color: #9e9e9e; 
 }
-
-
-
-
-
-
-
 main.main-content {
     flex: 1;
     padding: 20px;
@@ -164,15 +156,7 @@ section#right > div:nth-child(2) > div:last-child {
     margin-left: 30px;
 }
 
-
-
-#calendar {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    margin:0px;
-}
-
+/* 
 .fc-event,
 .fc-event a {
     color: #2c3e50 !important;
@@ -195,13 +179,14 @@ section#right > div:nth-child(2) > div:last-child {
     text-decoration: none !important;
 }
 .fc-prev-button, .fc-next-button {
-    font-size: 12px; /* 글씨 크기 줄이기 */
-    padding: 3px 5px; /* 버튼의 내부 여백 줄이기 */
-    width: auto; /* 버튼의 너비 자동 조정 */
-    height: auto; /* 버튼의 높이 자동 조정 */
-    min-width: 30px; /* 최소 너비 설정 */
-    min-height: 30px; /* 최소 높이 설정 */
-}
+    font-size: 12px; 
+    padding: 3px 5px; 
+    width: auto; 
+    height: auto; 
+    min-width: 30px; 
+    min-height: 30px; 
+} 
+*/
 
 
 /* 출퇴근 시간 */
@@ -213,16 +198,29 @@ section#right > div:nth-child(2) > div:last-child {
     font-size: 15px;
     color: gray;
 }
+
+
+/* 추가 스타일: 인라인 스타일 대체 */
+.info {
+    text-align: center;
+}
+
+.name {
+    display: inline-block;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.department {
+    font-weight: bolder;
+}
+
+.position {
+    display: inline-block;
+    font-weight: bold;
+}
 </style>
-<%-- <div>
-    <h3>Commute Data 데이터오는지</h3>
-    <p>Commute Data: <c:out value="${sessionScope.commuteData}" /></p>
-    <p>Attendance Time: <c:out value="${sessionScope.attendanceTime}" /></p>
-    <p>Leave Time: <c:out value="${sessionScope.leaveTime}" /></p>
-</div> --%>
 <section class="main-container">
-
-
     <aside class="sidebar">
         <div class="profile-card">
             <div class="profile-info">
@@ -236,10 +234,10 @@ section#right > div:nth-child(2) > div:last-child {
 	                    </c:otherwise>
 	                </c:choose>
                 </div>
-                <div class="info" style="text-align:center;">
-                    <span class="name" style="display: inline-block; margin-right:10px; font-weight:bold;"><c:out value="${loginEmployee.empName}"/></span><br>
-                    <span class="department" style="font-weight:bolder;"><c:out value="${loginEmployee.deptCode.deptName}"/></span>
-                    <span class="position" style="display: inline-block; font-weight:bold;"><c:out value="${loginEmployee.jobCode.jobName}"/></span>
+                <div class="info">
+                    <span class="name"><c:out value="${loginEmployee.empName}"/></span><br>
+                    <span class="department"><c:out value="${loginEmployee.deptCode.deptName}"/></span>
+                    <span class="position"><c:out value="${loginEmployee.jobCode.jobName}"/></span>
                 </div> 
             </div>
             <div class="current-date">
@@ -260,20 +258,25 @@ section#right > div:nth-child(2) > div:last-child {
                     onclick="setTime('leave-time','퇴근하시겠습니까?',${loginEmployee.empNo}, '/commute/leave')">퇴근하기</button>
             </div>  
             <div style="margin-top:10px; font-size:14px;">
-            
                 <div class="time-record">
                     <span>출근시간</span>
                     <span class="time-status" id="arrival-time">
-                    	<c:out value="${commuteData != null && commuteData.attendanceTime != null ? commuteData.attendanceTime : '미등록'}"/>
-                    </span>
+        <c:out value="${commuteData.attendanceTime}" default="미등록"/>
+					</span>
                 
                 </div>
                 <div class="time-record">
                     <span>퇴근시간</span>
                     <span class="time-status" id="leave-time">
-                    	<c:out value="${commuteData != null && commuteData.leaveTime != null ? commuteData.leaveTime : '미등록'}"/>
-                    </span>
+    <c:out value="${commuteData.leaveTime != null ? commuteData.leaveTime : '미등록'}"/>
+					</span>
                 </div>
+                <div>
+				    <span>상태: </span>
+				    <span class="time-status" id="status">
+				        <c:out value="${commuteData.status != null ? commuteData.status : '미등록'}"/>
+				    </span>
+				</div>
             </div>
         </div>
     </aside>
@@ -294,11 +297,12 @@ section#right > div:nth-child(2) > div:last-child {
                 </div>
                 
             </div>
-            <div >
+            <!-- <div >
                 <div id="calendar" style="width:100%; margin-left:0px">
+	            
 	            </div>
 
-            </div>
+            </div> -->
             
         </section>
     </main>
@@ -402,93 +406,85 @@ section#right > div:nth-child(2) > div:last-child {
     	}
     	
     	
-        // 캘린더
-        $(document).ready(function() {
-            var calendarEl = document.getElementById('calendar');
+ /*    	    // 캘린더
+    	    $(document).ready(function() {
+    	        var calendarEl = document.getElementById('calendar');
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                height: '600px', // calendar 높이 설정
-                expandRows: true, // 화면에 맞게 높이 재설정
-                slotMinTime: '08:00', // Day 캘린더에서 시작 시간
-                slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-                },
-                buttonText: { // 이 부분을 최상위 설정 객체에 추가
-                    month: '월',
-                    week: '주',
-                    day: '일',
-                    list: '리스트'
-                },
-                initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
-                initialDate: new Date().toISOString().slice(0, 10), // 초기 날짜 설정 (현재 날짜)
-                navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
-                editable: true, // 수정 가능?
-                selectable: true, // 달력 일자 드래그 설정가능
-                nowIndicator: true, // 현재 시간 마크
-                dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
-                locale: 'ko', // 한국어 설정
-                eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
-                    console.log(obj);
-                },
-                eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
-                    console.log(obj);
-                },
-                eventRemove: function(obj) { // 이벤트가 삭제되면 발생하는 이벤트
-                    console.log(obj);
-                },
-                select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
-                    var title = prompt('Event Title:');
-                    if (title) {
-                        calendar.addEvent({
-                            title: title,
-                            start: arg.start,
-                            end: arg.end,
-                            allDay: arg.allDay
-                        })
-                    }
-                    calendar.unselect()
-                },
-                eventClick: function(info) { // 이벤트 클릭 시
-                    if (confirm("일정을 취소하시겠습니까?")) {
-                        info.event.remove(); // 이벤트 삭제
-                    }
-                },
-                
-                eventDidMount: function(info) { // 이벤트가 화면에 표시될 때 발생하는 이벤트
-                    if (info.el.querySelector('.fc-more')) {
-                        const moreLink = info.el.querySelector('.fc-more');
-                        moreLink.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            $('#eventList').empty();
-                            info.event.extendedProps.moreEvents.forEach(function(event) {
-                                $('#eventList').append('<li>' + event.title + '</li>');
-                            });
-                            $('#eventModal').modal('show');
-                        });
-                    }
-                },
-                moreLinkClick: function(arg) { // more 링크 클릭 시
-                    $('#eventList').empty();
-                    arg.allSegs.forEach(function(seg) {
-                        $('#eventList').append('<li>' + seg.event.title + '</li>');
-                    });
-                    $('#eventModal').modal('show');
-                    return false; // 'more' 링크 클릭을 막음
-                }
-            });
-            // 캘린더 랜더링
-            calendar.render();
-        });
-        
-        
-        
+    	        var calendar = new FullCalendar.Calendar(calendarEl, {
+    	            height: '600px', // calendar 높이 설정
+    	            expandRows: true, // 화면에 맞게 높이 재설정
+    	            slotMinTime: '08:00', // Day 캘린더에서 시작 시간
+    	            slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
+    	            headerToolbar: {
+    	                left: 'prev,next today',
+    	                center: 'title',
+    	                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+    	            },
+    	            buttonText: { // 버튼 텍스트 설정
+    	                month: '월',
+    	                week: '주',
+    	                day: '일',
+    	                list: '리스트'
+    	            },
+    	            initialView: 'timeGridWeek', // 초기 로드될 때 주간 뷰로 설정
+    	            initialDate: new Date().toISOString().slice(0, 10), // 초기 날짜 설정 (현재 날짜)
+    	            navLinks: true, // 날짜 클릭 시 Day/Week 뷰로 링크
+    	            editable: true, // 이벤트 수정 가능 여부
+    	            selectable: true, // 날짜 선택 가능 여부
+    	            nowIndicator: true, // 현재 시간 표시
+    	            dayMaxEvents: true, // 이벤트가 많을 경우 "+"로 표시
+    	            locale: 'ko', // 한국어 설정
+    	            eventAdd: function(obj) { // 이벤트 추가 시 발생
+    	                console.log(obj);
+    	            },
+    	            eventChange: function(obj) { // 이벤트 수정 시 발생
+    	                console.log(obj);
+    	            },
+    	            eventRemove: function(obj) { // 이벤트 삭제 시 발생
+    	                console.log(obj);
+    	            },
+    	            select: function(arg) { // 드래그로 이벤트 생성 가능
+    	                var title = prompt('Event Title:');
+    	                if (title) {
+    	                    calendar.addEvent({
+    	                        title: title,
+    	                        start: arg.start,
+    	                        end: arg.end,
+    	                        allDay: arg.allDay
+    	                    })
+    	                }
+    	                calendar.unselect()
+    	            },
+    	            eventClick: function(info) { // 이벤트 클릭 시
+    	                if (confirm("일정을 취소하시겠습니까?")) {
+    	                    info.event.remove(); // 이벤트 삭제
+    	                }
+    	            },
+    	            eventDidMount: function(info) { // 이벤트가 화면에 표시될 때
+    	                if (info.el.querySelector('.fc-more')) {
+    	                    const moreLink = info.el.querySelector('.fc-more');
+    	                    moreLink.addEventListener('click', function(e) {
+    	                        e.preventDefault();
+    	                        $('#eventList').empty();
+    	                        info.event.extendedProps.moreEvents.forEach(function(event) {
+    	                            $('#eventList').append('<li>' + event.title + '</li>');
+    	                        });
+    	                        $('#eventModal').modal('show');
+    	                    });
+    	                }
+    	            },
+    	            moreLinkClick: function(arg) { // more 링크 클릭 시
+    	                $('#eventList').empty();
+    	                arg.allSegs.forEach(function(seg) {
+    	                    $('#eventList').append('<li>' + seg.event.title + '</li>');
+    	                });
+    	                $('#eventModal').modal('show');
+    	                return false; // 'more' 링크 클릭 방지
+    	            }
+    	        });
+    	        // 캘린더 랜더링
+    	        calendar.render();
+    	    }); */   
     </script>
-	
-
-
-
 </body>
 </html>
